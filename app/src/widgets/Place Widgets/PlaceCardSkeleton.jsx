@@ -1,7 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import "../../components/Places Components/PlacePage.css";
 
 
 function PlaceCardSkeleton({ cards }) {
