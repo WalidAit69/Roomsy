@@ -6,7 +6,7 @@ function useAuth({user , setuser}) {
     const id = localStorage.getItem("userID");
 
     async function getUser() {
-        await axios.get(`http://localhost:3001/api/user/${id}`).then((res) => {
+        await axios.get(`/api/user/${id}`).then((res) => {
             setuser(res.data);
         });
     }

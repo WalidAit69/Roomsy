@@ -46,7 +46,7 @@ async function uploadToS3(newpath, originalFilename, mimetype) {
 }
 
 // upload pictures with link to aws
-placerouter.post("/upload-by-link", async (req, res) => {
+placerouter.post("/api/upload-by-link", async (req, res) => {
   connectDB();
   try {
     const { link } = req.body;
@@ -93,7 +93,7 @@ placerouter.post("/upload-by-link", async (req, res) => {
 
 // upload pictures with file to aws
 placerouter.post(
-  "/upload",
+  "/api/upload",
   photosMiddelware.array("files", 30),
   async (req, res) => {
     connectDB();
@@ -115,7 +115,7 @@ placerouter.post(
 );
 
 // delete pictures
-placerouter.delete("/delete-photo/:filename", async (req, res) => {
+placerouter.delete("/api/delete-photo/:filename", async (req, res) => {
   connectDB();
   const { filename } = req.params;
 
@@ -133,7 +133,7 @@ placerouter.delete("/delete-photo/:filename", async (req, res) => {
 });
 
 // delete pictures
-placerouter.delete("/delete-photo/:id/:filename", async (req, res) => {
+placerouter.delete("/api/delete-photo/:id/:filename", async (req, res) => {
   connectDB();
 
   const { id, filename } = req.params;
@@ -166,7 +166,7 @@ placerouter.delete("/delete-photo/:id/:filename", async (req, res) => {
 });
 
 // add a place
-placerouter.post("/place", async (req, res) => {
+placerouter.post("/api/place", async (req, res) => {
   connectDB();
 
   const {
@@ -238,7 +238,7 @@ placerouter.post("/place", async (req, res) => {
 });
 
 // edit a place
-placerouter.put("/place", async (req, res) => {
+placerouter.put("/api/place", async (req, res) => {
   connectDB();
 
   try {
@@ -294,7 +294,7 @@ placerouter.put("/place", async (req, res) => {
 });
 
 // get all places
-placerouter.get("/places", async (req, res) => {
+placerouter.get("/api/places", async (req, res) => {
   connectDB();
 
   try {
@@ -307,7 +307,7 @@ placerouter.get("/places", async (req, res) => {
 });
 
 // get places by types
-placerouter.get("/placesByType/:type", async (req, res) => {
+placerouter.get("/api/placesByType/:type", async (req, res) => {
   connectDB();
 
   const { type } = req.params;
@@ -323,7 +323,7 @@ placerouter.get("/placesByType/:type", async (req, res) => {
 });
 
 // get place by id
-placerouter.get("/place/:id", async (req, res) => {
+placerouter.get("/api/place/:id", async (req, res) => {
   connectDB();
 
   const { id } = req.params;
@@ -343,7 +343,7 @@ placerouter.get("/place/:id", async (req, res) => {
 });
 
 // get places by location
-placerouter.get("/placesByCountry/:country", async (req, res) => {
+placerouter.get("/api/placesByCountry/:country", async (req, res) => {
   connectDB();
 
   const { country } = req.params;
@@ -359,7 +359,7 @@ placerouter.get("/placesByCountry/:country", async (req, res) => {
 });
 
 // get places by location and type
-placerouter.get("/placesByCountryAndType/:country/:type", async (req, res) => {
+placerouter.get("/api/placesByCountryAndType/:country/:type", async (req, res) => {
   connectDB();
 
   const { country, type } = req.params;
@@ -376,7 +376,7 @@ placerouter.get("/placesByCountryAndType/:country/:type", async (req, res) => {
 
 // get places by search
 placerouter.get(
-  "/placesBySearch/:country/:checkin/:checkout/:guests",
+  "/api/placesBySearch/:country/:checkin/:checkout/:guests",
   async (req, res) => {
     connectDB();
 
@@ -415,7 +415,7 @@ placerouter.get(
 );
 
 // get places by owner
-placerouter.get("/placeByowner/:id", async (req, res) => {
+placerouter.get("/api/placeByowner/:id", async (req, res) => {
   connectDB();
 
   const { id } = req.params;
@@ -432,7 +432,7 @@ placerouter.get("/placeByowner/:id", async (req, res) => {
 });
 
 // like place
-placerouter.post("/save/:id", async (req, res) => {
+placerouter.post("/api/save/:id", async (req, res) => {
   connectDB();
 
   try {
@@ -498,7 +498,7 @@ placerouter.post("/save/:id", async (req, res) => {
 });
 
 //add reviews
-placerouter.post("/reviews/:placeid", async (req, res) => {
+placerouter.post("/api/reviews/:placeid", async (req, res) => {
   connectDB();
 
   const { placeid } = req.params;
@@ -549,7 +549,7 @@ placerouter.post("/reviews/:placeid", async (req, res) => {
 });
 
 //delete reviews
-placerouter.delete("/deletereview/:id/:index", async (req, res) => {
+placerouter.delete("/api/deletereview/:id/:index", async (req, res) => {
   connectDB();
 
   const { id, index } = req.params;
@@ -589,7 +589,7 @@ placerouter.delete("/deletereview/:id/:index", async (req, res) => {
 });
 
 //add booking
-placerouter.post("/addBooking", async (req, res) => {
+placerouter.post("/api/addBooking", async (req, res) => {
   connectDB();
 
   const {
@@ -633,7 +633,7 @@ placerouter.post("/addBooking", async (req, res) => {
 });
 
 //get booking by id
-placerouter.get("/Bookings/:id", async (req, res) => {
+placerouter.get("/api/Bookings/:id", async (req, res) => {
   connectDB();
 
   const { id } = req.params;
@@ -650,7 +650,7 @@ placerouter.get("/Bookings/:id", async (req, res) => {
 });
 
 //get booking by user
-placerouter.get("/Bookings", async (req, res) => {
+placerouter.get("/api/Bookings", async (req, res) => {
   connectDB();
 
   try {
@@ -675,7 +675,7 @@ placerouter.get("/Bookings", async (req, res) => {
 });
 
 //get booking by host
-placerouter.get("/Booked", async (req, res) => {
+placerouter.get("/api/Booked", async (req, res) => {
   connectDB();
 
   const { token } = req.cookies;
@@ -700,7 +700,7 @@ placerouter.get("/Booked", async (req, res) => {
 });
 
 //get booking by place
-placerouter.get("/BookPlace/:id", async (req, res) => {
+placerouter.get("/api/BookPlace/:id", async (req, res) => {
   connectDB();
 
   const { id } = req.params;

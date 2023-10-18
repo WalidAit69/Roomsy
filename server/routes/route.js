@@ -13,7 +13,7 @@ const router = Router();
 const uploadMiddleware = multer({ dest: "uploads/" });
 
 // Register
-router.post("/register", uploadMiddleware.single("file"), async (req, res) => {
+router.post("/api/register", uploadMiddleware.single("file"), async (req, res) => {
   connectDB();
 
   try {
@@ -60,7 +60,7 @@ router.post("/register", uploadMiddleware.single("file"), async (req, res) => {
 
 //update user
 router.put(
-  "/UpdateUserimg",
+  "/api/UpdateUserimg",
   uploadMiddleware.single("file"),
   async (req, res) => {
     connectDB();
@@ -93,7 +93,7 @@ router.put(
   }
 );
 
-router.put("/UpdateUser", async (req, res) => {
+router.put("/api/UpdateUser", async (req, res) => {
   connectDB();
 
   const { token } = req.cookies;
@@ -118,7 +118,7 @@ router.put("/UpdateUser", async (req, res) => {
 });
 
 //Login
-router.post("/login", async (req, res) => {
+router.post("/api/login", async (req, res) => {
   connectDB();
   try {
     const { email, password } = req.body;
@@ -156,7 +156,7 @@ router.post("/login", async (req, res) => {
 });
 
 // GET Users
-router.get("/user/:id", async (req, res) => {
+router.get("/api/user/:id", async (req, res) => {
   connectDB();
 
   try {
@@ -186,7 +186,7 @@ router.get("/user/:id", async (req, res) => {
 });
 
 // Logout
-router.get("/logout", async (req, res) => {
+router.get("/api/logout", async (req, res) => {
   connectDB();
 
   try {
