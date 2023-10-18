@@ -28,7 +28,7 @@ function PlacesSearch() {
     }
 
     async function GetPlaces() {
-        const { data } = await axios.get(`http://localhost:3001/placesBySearch/${country}/${checkin}/${checkout}/${guests}`)
+        const { data } = await axios.get(`/placesBySearch/${country}/${checkin}/${checkout}/${guests}`)
         setSearchRes(data);
         setisLoading(false);
     }

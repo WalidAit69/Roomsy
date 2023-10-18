@@ -40,7 +40,7 @@ function Signin_form() {
         withCredentials: true,
       }
 
-      const response = await axios.post("http://localhost:3001/api/login", {
+      const response = await axios.post("/api/login", {
         email:email.value,
         password:password.value,
       },config);

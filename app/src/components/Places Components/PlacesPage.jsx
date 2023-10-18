@@ -19,13 +19,13 @@ function PlacesPage() {
     const { showPopup, type, settype, selectedcategoryindex, setselectedcategoryindex } = useContext(MyContext);
 
     async function getAllPlaces() {
-        const { data } = await axios.get('http://localhost:3001/places');
+        const { data } = await axios.get('/places');
         setllplaces(data)
         setnumPlaces(data.length);
         setisLoading(false);
     }
     async function getPlacesByCategory() {
-        const { data } = await axios.get(`http://localhost:3001/placesByType/${type}`);
+        const { data } = await axios.get(`/placesByType/${type}`);
         setplacesBycat(data)
         setisLoading(false);
     }

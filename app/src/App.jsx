@@ -15,9 +15,13 @@ import BookedPage from "./components/Profile Components/BookedPage";
 import BookingPlace from "./components/Profile Components/BookingPlace";
 import BookedPlace from "./components/Profile Components/BookedPlace";
 import PlacesSearch from "./screens/PlacesSearch";
+import axios from "axios";
 
 
 export const MyContext = React.createContext();
+
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+axios.defaults.withCredentials = true;
 
 function App() {
 

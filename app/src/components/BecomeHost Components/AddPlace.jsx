@@ -73,7 +73,7 @@ function AddPlace({ opened, setOpened, id, placeimages }) {
             owner,
         };
 
-        const { data } = await axios.post('http://localhost:3001/place', placedata, {
+        const { data } = await axios.post('/place', placedata, {
             withCredentials: true,
         })
         window.location.reload();
@@ -104,13 +104,13 @@ function AddPlace({ opened, setOpened, id, placeimages }) {
             maxGuests,
             owner
         };
-        const { data } = await axios.put('http://localhost:3001/place', placedata)
+        const { data } = await axios.put('/place', placedata)
         window.location.reload();
     }
 
 
     async function getPlace() {
-        const { data } = await axios.get(`http://localhost:3001/place/${id}`)
+        const { data } = await axios.get(`/place/${id}`)
         setplace(data);
     }
 

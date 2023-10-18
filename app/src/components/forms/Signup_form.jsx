@@ -100,7 +100,7 @@ function Signup_form({ setregistrationtype }) {
       try {
         setisLoading(true);
         const response = await axios(
-          "http://localhost:3001/api/register",
+          "/api/register",
           {
             method: "post",
             data: data,

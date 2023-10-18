@@ -42,7 +42,7 @@ function Navbar() {
   async function getBooked() {
     if (user.id === id) {
       try {
-        const { data } = await axios.get("http://localhost:3001/Booked", {
+        const { data } = await axios.get("/Booked", {
           withCredentials: true
         })
         setBooked(data);
@@ -99,7 +99,7 @@ function Navbar() {
 
   async function Logout() {
     try {
-      const res = await axios.get("http://localhost:3001/api/logout");
+      const res = await axios.get("/api/logout");
       clearCookie('token');
       window.location.href = '/';
     } catch (error) {
@@ -159,8 +159,9 @@ function Navbar() {
 
   }, [])
 
-  console.log(screenHeight);
-
+  let src = "";
+  src = user.profilepic && user.profilepic.includes('https://') ? user.profilepic
+        : "http://localhost:3001/" + user.profilepic;
 
   return (
     <header className="header">
@@ -237,7 +238,7 @@ function Navbar() {
           ) : (
             <Menu shadow="md" width={200}>
               <Menu.Target>
-                {!user.profilepic ? <Skeleton width={"35px"} height={"35px"} borderRadius={"50%"} style={{ marginLeft: ".6rem" }} /> : <img src={`http://localhost:3001/${user.profilepic}`} alt="" style={{ cursor: "pointer", marginLeft: ".6rem" }} />}
+                {!user.profilepic ? <Skeleton width={"35px"} height={"35px"} borderRadius={"50%"} style={{ marginLeft: ".6rem" }} /> : <img src={src} alt="" style={{ cursor: "pointer", marginLeft: ".6rem" }} />}
               </Menu.Target>
 
               <Menu.Dropdown>

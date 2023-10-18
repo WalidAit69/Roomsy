@@ -66,7 +66,7 @@ function PlaceBook({ opened, close, numberofDays, place, PlaceRate, checkin, che
             try {
                 const bookconfig = {
                     method: "post",
-                    url: `http://localhost:3001/addBooking`,
+                    url: `/addBooking`,
                     withCredentials: true,
                     data: {
                         id,

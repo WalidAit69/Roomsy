@@ -56,7 +56,7 @@ function ImageSlider({ images, isLoading, isLiked, handleLikeClick, handleEditCl
                     {images && !isLoading ? images.map((image, index) => {
                         return <div className='Place_slider_img' key={index}>
                             <p>{index + 1}/{images.length}</p>
-                            <img src={`http://localhost:3001/server/routes/uploads/${image}`} alt="" />
+                            <img src={`/server/routes/uploads/${image}`} alt="" />
                         </div>
                     }) : <Skeleton height={"500px"} width={"500px"} className='' />}
                 </Slider>

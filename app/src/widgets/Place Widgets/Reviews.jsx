@@ -22,7 +22,7 @@ function Reviews({ id, place }) {
         const isConfirmed = window.confirm('Are you sure you want to delete this item?');
 
         if (isConfirmed) {
-            const res = await axios.delete(`http://localhost:3001/deletereview/${id}/${index}`, {
+            const res = await axios.delete(`/deletereview/${id}/${index}`, {
                 withCredentials: true,
             })
             window.location.reload();
@@ -56,7 +56,7 @@ function Reviews({ id, place }) {
                         {place.reviews && place.reviews.map((review, index) => (
                             <div key={index}>
                                 <div className='review'>
-                                    <img src={`http://localhost:3001/${review.userPhoto}`} alt="" />
+                                    <img src={`/${review.userPhoto}`} alt="" />
 
                                     <div className='review_info'>
                                         <div className='review_author'>

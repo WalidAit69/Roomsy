@@ -15,12 +15,12 @@ function PlacesByCountry() {
     const { showPopup, type, settype, selectedcategoryindex, setselectedcategoryindex } = useContext(MyContext);
 
     async function getPlacesBycountryandType() {
-        const { data } = await axios.get(`http://localhost:3001/placesByCountryAndType/${country}/${type}`)
+        const { data } = await axios.get(`/placesByCountryAndType/${country}/${type}`)
         setplaces(data);
     }
 
     async function getPlacesBycountry() {
-        const { data } = await axios.get(`http://localhost:3001/placesByCountry/${country}`)
+        const { data } = await axios.get(`/placesByCountry/${country}`)
         setplacesByCountry(data);
     }
 

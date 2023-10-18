@@ -13,7 +13,7 @@ function BookingPage() {
 
     async function getBookings() {
         try {
-            const { data } = await axios.get("http://localhost:3001/Bookings", {
+            const { data } = await axios.get("/Bookings", {
                 withCredentials: true
             })
             setbookings(data);

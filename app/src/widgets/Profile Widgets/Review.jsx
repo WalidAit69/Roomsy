@@ -30,7 +30,7 @@ function Review({id}) {
     const handleSubmit = async (e) => {
         const axiosConfig = {
             method: 'post',
-            url: `http://localhost:3001/reviews/${id}`,
+            url: `/reviews/${id}`,
             withCredentials: true,
             data: {
                 comment: comment,

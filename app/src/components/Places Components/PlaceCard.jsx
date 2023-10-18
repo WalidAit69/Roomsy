@@ -13,7 +13,7 @@ function PlaceCard({ id }) {
     const [isLoading, setisLoading] = useState(true);
 
     async function getPlace() {
-        const { data } = await axios.get(`http://localhost:3001/place/${id}`)
+        const { data } = await axios.get(`/place/${id}`)
         setplace(data);
         setimages(data.images);
         setisLoading(false);

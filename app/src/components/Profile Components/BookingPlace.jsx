@@ -36,7 +36,7 @@ function BookingPlace() {
     }
 
     async function getBooking() {
-        const { data } = await axios.get(`http://localhost:3001/Bookings/${id}`)
+        const { data } = await axios.get(`/Bookings/${id}`)
         setBooking(data);
         setplace(data.place);
         sethost(data.host);
@@ -71,7 +71,7 @@ function BookingPlace() {
     const handleLikeClick = async () => {
         const axiosConfig = {
             method: 'post',
-            url: `http://localhost:3001/save/${place?._id}`,
+            url: `/save/${place?._id}`,
             withCredentials: true,
         };
         if (!currentuserid) {
@@ -240,7 +240,7 @@ function BookingPlace() {
                                 </div> : <Skeleton width={"250px"} />}
 
                                 {!isLoading ? <Link to={`/user/show/${Placeuserid}`} className="place_host">
-                                    <img src={`http://localhost:3001/${host?.profilepic}`} alt="" />
+                                    <img src={`/${host?.profilepic}`} alt="" />
                                     <FontAwesomeIcon className='ratingicon ratingicon_user' icon={faStar} />
                                 </Link> : <Skeleton width={"50px"} height={"50px"} borderRadius={"50%"} />}
                             </div>

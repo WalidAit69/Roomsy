@@ -48,7 +48,7 @@ function PlacePage() {
     }
 
     async function getPlace() {
-        const { data } = await axios.get(`http://localhost:3001/place/${id}`)
+        const { data } = await axios.get(`/place/${id}`)
         setplace(data);
         setperks(data.perks);
         setimages(data.images);
@@ -79,7 +79,7 @@ function PlacePage() {
     const handleLikeClick = async () => {
         const axiosConfig = {
             method: 'post',
-            url: `http://localhost:3001/save/${id}`,
+            url: `/save/${id}`,
             withCredentials: true,
         };
         if (!currentuserid) {
@@ -132,7 +132,7 @@ function PlacePage() {
     async function getBookinfo() {
         if (currentuserid) {
             try {
-                const { data } = await axios.get(`http://localhost:3001/BookPlace/${id}`)
+                const { data } = await axios.get(`/BookPlace/${id}`)
                 setbookinfo(data);
             } catch (error) {
                 console.error(error)
@@ -208,6 +208,10 @@ function PlacePage() {
         };
     }, []);
 
+
+    let src = "";
+    src = place?.owner?.profilepic && place?.owner?.profilepic.includes('https://') ? place?.owner?.profilepic
+          : "http://localhost:3001/" + place?.owner?.profilepic;
 
     return (
         <>
@@ -309,7 +313,7 @@ function PlacePage() {
                             </div> : <Skeleton width={screenWidth > 650 ? "400px" : "250px"} height={8} count={2} />}
 
                             {!isLoading ? <Link to={`/user/show/${Placeuserid}`} className="place_host">
-                                <img src={`http://localhost:3001/${place?.owner?.profilepic}`} alt="" />
+                                <img src={src} alt="" />
                                 <FontAwesomeIcon className='ratingicon ratingicon_user' icon={faStar} />
                             </Link> : <Skeleton width={"50px"} height={"50px"} borderRadius={"50%"} />}
                         </div>

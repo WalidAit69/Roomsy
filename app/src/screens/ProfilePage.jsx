@@ -42,12 +42,12 @@ function ProfilePage() {
 
 
   async function getUser() {
-    const { data } = await axios.get(`http://localhost:3001/api/user/${id}`)
+    const { data } = await axios.get(`/api/user/${id}`)
     setuser(data);
   }
 
   async function getplaceByowner() {
-    const { data } = await axios.get(`http://localhost:3001/placeByowner/${id}`)
+    const { data } = await axios.get(`/placeByowner/${id}`)
 
     setuserplaces(data)
     if (data && data.length > 0) {
@@ -112,13 +112,13 @@ function ProfilePage() {
 
     const axiowithimgConfig = {
       method: 'put',
-      url: 'http://localhost:3001/api/UpdateUserimg',
+      url: '/api/UpdateUserimg',
       data: data,
       withCredentials: true,
     }
     const axioConfig = {
       method: 'put',
-      url: 'http://localhost:3001/api/UpdateUser',
+      url: '/api/UpdateUser',
       data: {
         job,
         lang,
@@ -153,6 +153,10 @@ function ProfilePage() {
     fileInput.click();
   };
 
+  let src = "";
+  src = user.profilepic && user.profilepic.includes('https://') ? user.profilepic
+        : "http://localhost:3001/" + user.profilepic;
+
 
   return (
     <>
@@ -179,7 +183,7 @@ function ProfilePage() {
                       setfiles(files);
                     }
                   }} />
-                  {!user.profilepic ? <Skeleton className="user_card_img_image" /> : <img className="user_card_img_image" src={image ? image : `http://localhost:3001/${user.profilepic}`} alt="" />}
+                  {!user.profilepic ? <Skeleton className="user_card_img_image" /> : <img className="user_card_img_image" src={image ? image : src} alt="" />}
                   {showEdit && <FontAwesomeIcon icon={faPen} className="Profile_img_edit" onClick={handlePhotoEdit}></FontAwesomeIcon>}
                 </div>
                 {!user.fullname ? <Skeleton /> : <h1>{user.fullname}</h1>}

@@ -22,12 +22,12 @@ function ProfileShow() {
   const { id } = useParams()
 
   async function getUser() {
-    const { data } = await axios.get(`http://localhost:3001/api/user/${id}`)
+    const { data } = await axios.get(`/api/user/${id}`)
     setuser(data)
   }
 
   async function getplaceByowner() {
-    const { data } = await axios.get(`http://localhost:3001/placeByowner/${id}`)
+    const { data } = await axios.get(`/placeByowner/${id}`)
 
     setuserplaces(data)
     if (data && data.length > 0) {
@@ -67,7 +67,7 @@ function ProfileShow() {
 
             <div className="user_card">
               <div className="user_card_img">
-                <img src={`http://localhost:3001/${user.profilepic}`} alt="" />
+                <img src={`/${user.profilepic}`} alt="" />
                 <h1>{user.fullname}</h1>
                 <p>Host</p>
               </div>
