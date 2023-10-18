@@ -1,0 +1,368 @@
+.addplace_location {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50vh;
+    gap: 3rem;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 50%;
+}
+
+.left label span {
+    color: red;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.PlaceBasics label span {
+    color: red;
+}
+
+.Placefacilities label span {
+    color: red;
+}
+
+.location_inputs {
+    width: 100%;
+    height: 35px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: .5rem;
+    outline: transparent;
+}
+
+
+.location_inputs:focus {
+    border: .5px solid var(--main-color);
+}
+
+.right {
+    width: 50%;
+}
+
+.error {
+    border: 1px solid red;
+}
+
+.error-msg {
+    color: red;
+    font-size: .8rem;
+    display: none;
+}
+
+.show-error-msg {
+    display: block;
+}
+
+.img_upload_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 60vh;
+}
+
+.UPimage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 5rem;
+}
+
+.uploadby_link {
+    width: 100%;
+    display: flex;
+}
+
+.uploadby_link div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
+.image-upload-input {
+    width: 90%;
+    height: 35px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: .5rem;
+    outline: transparent;
+}
+
+.uploadby_link input:focus {
+    border: .5px solid var(--main-color);
+}
+
+.uploadby_link button {
+    width: 20%;
+    height: 35px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: .5rem;
+    outline: transparent;
+    transition: .3s;
+    font-size: .9rem;
+    font-weight: 500;
+    border: transparent;
+    outline: transparent;
+    margin-right: 5rem;
+}
+
+.uploadby_link button:hover {
+    transition: .3s;
+    cursor: pointer;
+    scale: 1.03;
+    background-color: var(--main-color);
+    color: white;
+}
+
+.uploadby_file {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.image_showcase {
+    position: relative;
+}
+
+.image_showcase img {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.image_showcase svg {
+    position: absolute;
+    width: 30px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    filter: drop-shadow(1px 1px 1px black);
+    display: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.image_showcase:hover .del {
+    display: block;
+    transition: .3s;
+}
+
+.upload_container {
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 2.5rem 3.5rem;
+    width: 200px;
+    height: 150px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.upload_container:hover {
+    transition: .3s;
+    border-radius: 0px;
+    background-color: var(--main-color);
+    color: white;
+}
+
+.upload_container svg {
+    width: 30px;
+}
+
+.PlaceBasics {
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 3rem;
+}
+
+.PlaceBasics div {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#description {
+    height: 100px;
+}
+
+textarea {
+    resize: none;
+}
+
+.Placefacilities {
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+}
+
+.Placefacilities div {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.Placefacilities_right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.Placefacilities_right label span {
+    color: black;
+}
+
+.perk {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    cursor: pointer;
+}
+
+.perkclicked {
+    background-color: var(--main-light-color);
+    border: 1px solid transparent;
+    outline: transparent;
+    transform: scale(1.06);
+}
+
+.perk svg {
+    width: 20px;
+}
+
+.perk img {
+    width: 20px;
+}
+
+.Checkin_out {
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 3rem;
+}
+
+.Checkin_out div {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.Checkin_out label span {
+    color: red;
+}
+
+@media (max-width:1100px) {
+    .Placefacilities_left {
+        width: 20% !important;
+    }
+
+    .Placefacilities_left div {
+        width: 100%;
+    }
+
+    .perk {
+        padding: .6rem;
+    }
+}
+
+@media (max-width:900px) {
+    .addplace_location {
+        flex-direction: column;
+        height: 70vh;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .AddPlace_btn button {
+        margin: 1rem 0;
+    }
+
+    .uploadby_link button {
+        width: 200px;
+    }
+
+    .Placefacilities {
+        flex-direction: column;
+        gap: 1.5rem;
+        height: 65vh;
+    }
+
+    .Placefacilities div {
+        width: 100% !important;
+    }
+}
+
+@media (max-width:750px) {
+    .left {
+        width: 100%;
+    }
+
+    .right {
+        width: 100%;
+    }
+
+    .uploadby_link {
+        gap: 1rem;
+    }
+
+    .image-upload-input {
+        width: 100%;
+    }
+
+    .uploadby_link button {
+        width: 40%;
+        margin-right: 0rem;
+    }
+
+    .PlaceBasics div {
+        width: 100%;
+    }
+}
+
+@media (max-width:550px) {
+    .uploadby_link {
+        gap: 1rem;
+        flex-direction: column;
+    }
+
+    .Placefacilities_right {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .perk {
+        padding: .4rem;
+    }
+
+    .perk span {
+        font-size: .9rem;
+    }
+
+    .perk svg,
+    .perk img {
+        width: 15px;
+    }
+}

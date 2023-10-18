@@ -1,0 +1,44 @@
+.Host_form_info {
+  margin: 5rem 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.Host_form_info h1 {
+  font-size: 2.2rem;
+  max-width: 400px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.Host_form_info p {
+  max-width: 400px;
+  color: gray;
+}
+
+.Host_form_form .black_btn:hover{
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+
+@media (max-width:1050px) {
+    .Host_form{
+        width: 80%;
+        margin: 5rem auto;
+    }
+}
+
+@media (max-width:850px) {
+  .Host_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+  }
+  .host_btn{
+    width: 100%;
+  }
+}

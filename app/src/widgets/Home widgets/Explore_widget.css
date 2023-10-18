@@ -1,0 +1,21 @@
+.explore__card {
+  cursor: pointer;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin: 1.5rem 0;
+  transition: .3s;
+  width: 100%;
+}
+
+.explore__card:hover {
+  transform: scale(1.03);
+}
+
+.explore__card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  object-fit: cover;
+  filter: brightness(90%);
+}

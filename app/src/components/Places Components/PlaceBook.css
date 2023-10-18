@@ -1,0 +1,437 @@
+.booking {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.book_right {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    width: 40%;
+    height: 100%;
+}
+
+.book_right_price_coupon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.book_left {
+    width: 60%;
+}
+
+.book_coupon {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin: 2rem auto;
+    padding: 2rem 0;
+    width: 95%;
+}
+
+.book_coupon div {
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    height: 50px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.book_coupon div input {
+    width: 80%;
+    height: 100%;
+    border: transparent;
+    outline: transparent;
+    margin-left: .2rem;
+}
+
+.book_coupon div button {
+    width: 20%;
+    height: 70%;
+    margin-right: .5rem;
+    color: white;
+    background-color: rgb(149, 149, 149);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.book_coupon div button:hover {
+    transition: .3s;
+    scale: 1.05;
+}
+
+.book_price {
+    margin: 0 auto;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.book_price div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.book_price p {
+    color: black;
+}
+
+.book_price div:nth-child(4) p {
+    color: black;
+    font-weight: 700;
+}
+
+.book_price div:nth-child(4) p span {
+    text-decoration: underline;
+}
+
+.book_left_nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.book_left_trip {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.book_left_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.book_left_info h4 {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.book_left_work_trip {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin: 2rem auto;
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.book_left_pay {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.book_left_pay_full {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 1rem;
+}
+
+.book_left_pay_half {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: 0;
+    padding: 1rem;
+}
+
+.book_left_pay_full_selected {
+    border: 2px solid black;
+}
+
+.book_left_pay_half_selected {
+    border: 2px solid black;
+}
+
+.book_left_pay_half p {
+    max-width: 400px;
+}
+
+.book_pay_form {
+    border-top: 1px solid var(--border-color);
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+}
+
+.book_pay_form_div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.book_pay_form ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.book_pay_form ul svg {
+    height: 30px;
+    width: 30px;
+}
+
+
+/* Hide the spinner arrows for number input */
+.book_inputs input[type="number"]::-webkit-inner-spin-button,
+.book_inputs input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+
+/* Hide the spinner arrows for Firefox */
+.book_inputs input {
+    -moz-appearance: textfield;
+}
+
+.book_inputs input {
+    width: 100%;
+    height: 45px;
+    border: transparent;
+    outline: transparent;
+    padding: .5rem .7rem;
+}
+
+.book_inputs select {
+    width: 100%;
+    height: 45px;
+    border: transparent;
+    outline: transparent;
+    padding: .5rem .7rem;
+}
+
+.first_input {
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+#creditCardNumber {
+    border-bottom: 1px solid var(--border-color);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.first_input select {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.first_input select:nth-child(1) {
+    border-right: 1px solid var(--border-color);
+}
+
+.first_input div {
+    display: flex;
+}
+
+#cardholder {
+    border-right: 1px solid var(--border-color);
+    border-bottom-left-radius: 10px;
+}
+
+#cvv {
+    border-bottom-right-radius: 10px;
+}
+
+#zipcode {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+#bookcountry {
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.Cancel_policy {
+    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    margin: 3rem 0;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.Cancel_policy p {
+    max-width: 500px;
+}
+
+.book_cta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.book_cta .btn {
+    width: 30%;
+}
+
+.book_cta a {
+    color: rgb(23, 23, 203);
+    text-decoration: underline;
+}
+
+.loader {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #FFF;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.Book_error {
+    color: var(--main-color);
+    font-size: 1rem;
+    margin-top: .2rem;
+    display: none;
+}
+
+.Book_error-show {
+    display: block;
+}
+
+@media (max-width:1700px) {
+    .booking {
+        flex-direction: column-reverse;
+    }
+
+    .book_right {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .book_left {
+        width: 100%;
+    }
+
+    .book_right_card {
+        width: 60%;
+    }
+
+    .book_right_price_coupon {
+        width: 40%;
+    }
+
+    .book_coupon {
+        border-top: 0px solid var(--border-color);
+        margin: 0 auto;
+        padding: 1.5rem 0;
+    }
+}
+
+@media (max-width:1000px) {
+    .book_right_card {
+        display: none;
+    }
+
+    .book_right {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .book_left {
+        width: 100%;
+    }
+
+    .book_right_price_coupon {
+        width: 100%;
+    }
+}
+
+@media (max-width:600px) {
+    .book_inputs select {
+        font-size: .8rem;
+    }
+
+    .book_right_price_coupon {
+        font-size: .6rem;
+    }
+
+    .book_price p {
+        font-size: .8rem;
+    }
+
+    .book_left {
+        font-size: .8rem;
+    }
+
+    .book_left p {
+        font-size: .8rem;
+    }
+
+    .Cancel_policy h4 {
+        font-size: .85rem;
+    }
+
+    .book_left_pay_half p {
+        max-width: 250px;
+    }
+
+    .book_left_nav {
+        gap: .5rem;
+    }
+
+    .book_left_pay_full {
+        flex-direction: column;
+    }
+
+    .book_left_pay_full div:nth-child(2){
+        align-self: flex-end;
+    }
+
+    .book_left_pay_half {
+        flex-direction: column;
+    }
+
+    .book_left_pay_half div:nth-child(2){
+        align-self: flex-end;
+    }
+
+    .book_cta .btn {
+        width: 80%;
+    }
+}

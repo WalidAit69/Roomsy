@@ -1,0 +1,116 @@
+.main {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 7rem;
+  position: relative;
+  height: 500px;
+}
+
+.main img {
+  border-radius: 15px;
+  object-fit: cover;
+  height: 500px;
+  width: 100%;
+  filter: brightness(.8);
+  position: relative;
+}
+
+.main_info {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -20%);
+  text-align: center;
+}
+
+.main_info h1 {
+  color: white;
+  max-width: 200px;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.main_info p {
+  color: rgb(189, 188, 188);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.black_btn {
+  display: block;
+  color: white;
+  background-color: black;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  transition: .3s;
+}
+
+.main_info a:hover {
+  transform: scale(1.03);
+}
+
+.arrow {
+  background-color: white;
+  border: none;
+  outline: transparent;
+  padding: 0.8rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.arrow-left {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translate(-5%, -50%);
+}
+
+.arrow-right {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translate(-5%, -50%);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+}
+
+.dot {
+  height: 6px;
+  width: 6px;
+  margin: 0 5px;
+  margin-top: 10px;
+  border-radius: 50%;
+  background-color: #bbb;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.active {
+  background-color: black;
+  width: 8px;
+}
+
+
+
+@media (max-width: 460px) {
+  .arrow-left {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translate(-5%, -50%);
+  }
+  
+  .arrow-right {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translate(-5%, -50%);
+  }
+}

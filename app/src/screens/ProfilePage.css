@@ -1,0 +1,308 @@
+.profile_page {
+  display: flex;
+}
+
+.profile_page_left {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.user_card {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+  width: 70%;
+  height: 220px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.user_card_img {
+  text-align: center;
+}
+
+.user_card_img div {
+  position: relative;
+  border-radius: 50%;
+}
+
+.Profile_img_edit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.7rem;
+}
+
+.Profile_img_edit:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}
+
+.user_card_img_image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+.user_card_img h1 {
+  max-width: 100px;
+  font-size: 1.2rem;
+}
+
+.user_card_stats div:not(:nth-child(3)) {
+  border-bottom: 1px solid rgb(231, 231, 231);
+  padding-bottom: .3rem;
+  margin-bottom: .3rem;
+}
+
+.user_indentity {
+  border: 1px solid rgb(231, 231, 231);
+  width: 70%;
+  height: 220px;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+
+.user_indentity ul {
+  margin: 1rem 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user_indentity ul li {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+.user_report {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  color: black;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.user_report span {
+  text-decoration: underline;
+}
+
+.profile_page_right {
+  width: 60%;
+}
+
+.profile_page_right_info {
+  border-bottom: 1px solid rgb(231, 231, 231);
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile_page_right_info h1 {
+  font-size: 2.2rem;
+}
+
+.profile_page_right_infos {
+  display: flex;
+  gap: 10rem;
+  width: 100%;
+}
+
+.profile_page_right_info div p {
+  font-size: 1rem;
+}
+
+.profile_page_right_info p {
+  font-size: 1.1rem;
+  max-width: 80%;
+}
+
+.profile_page_right_listing {
+  margin-top: 2rem;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.user_arrays {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+
+.Profile_edit {
+  margin-left: .3rem;
+  color: black;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.profile_page_right_info_edit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Profile_update {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.Profile_update input {
+  border: transparent;
+  outline: transparent;
+}
+
+.EditModal button {
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  .user_indentity {
+    height: 260px;
+    width: 80%;
+  }
+
+  .user_card {
+    width: 80%;
+  }
+}
+
+@media (max-width: 900px) {
+  .profile_page {
+    flex-direction: column;
+    gap: 2rem;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .profile_page_left {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .user_indentity {
+    height: 220px;
+  }
+
+  .profile_page_right {
+    width: 100%;
+  }
+  .profile_page_right_infos p{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .user_indentity {
+    width: 50%;
+  }
+
+  .user_card {
+    width: 50%;
+  }
+  
+  .Profile_img_edit {
+    font-size: 1.4rem;
+  }
+  
+  .user_card_img_image {
+    width: 80px;
+    height: 80px;
+  }
+  
+}
+
+@media (max-width: 600px) {
+  .profile_page_left{
+    flex-direction: column;
+  }
+  .user_card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+  .user_card_stats{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+  .user_card_stats div:nth-child(3){
+    border-bottom: 1px solid var(--border-color);
+  }
+  .user_card_img_image{
+    margin-top: .5rem;
+  }
+  .user_indentity {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 150px;
+  }
+  .user_indentity h2{
+    font-size: 1.2rem;
+  }
+  .user_indentity ul{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.5rem;
+    font-size: .9rem;
+  }
+  .profile_page_right_infos{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  #bio{
+    align-self: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 350px) {
+  .user_card_stats h3{
+    font-size: 1rem;
+  }
+  .user_card_stats p{
+    font-size: .8rem;
+  }
+  .user_indentity {
+    height: 200px;
+  }
+  .user_indentity h2{
+    font-size: 1rem;
+  }
+  .user_indentity ul{
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  .profile_page_right_info_edit h1{
+    font-size: 1.6rem;
+  }
+}

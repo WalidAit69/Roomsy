@@ -1,0 +1,108 @@
+.book_card-ske {
+    width: 350px;
+    height: 300px;
+}
+
+.left-skele {
+    width: 350px;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.middle-skele {
+    width: 450px;
+    height: 240px;
+    border-radius: 15px;
+}
+
+.right-skele {
+    width: 400px;
+    height: 100%;
+    border-radius: 15px;
+}
+
+@media (max-width:1400px) {
+    .book_card-ske {
+        width: 300px;
+    }
+    .left-skele {
+        width: 300px;
+    }
+
+    .middle-skele {
+        width: 400px;
+    }
+
+    .right-skele {
+        width: 350px;
+    }
+}
+
+@media (max-width:1200px) {
+    .book_card-ske {
+        width: 250px;
+    }
+    .left-skele {
+        width: 250px;
+    }
+
+    .middle-skele {
+        width: 350px;
+    }
+
+    .right-skele {
+        width: 300px;
+    }
+}
+
+@media (max-width:1000px) {
+    .left-skele {
+        width: 300px;
+    }
+
+    .middle-skele {
+        width: 300px;
+        height: 200px;
+    }
+
+    .right-skele {
+        width: 100%;
+    }
+}
+
+@media (max-width:900px) {
+    .left-skele {
+        width: 250px;
+    }
+
+    .middle-skele {
+        width: 250px;
+        height: 180px;
+    }
+
+    .right-skele {
+        width: 100%;
+        height: 180px;
+    }
+}
+
+@media (max-width:650px) {
+    .left-skele {
+        width: 100%;
+        height: 160px;
+    }
+
+    .middle-skele {
+        width: 100px;
+        height: 150px;
+    }
+
+    .right-skele {
+        width: 100%;
+        height: 160px;
+    }
+}
+
+@media (max-width:550px) {
+
+}

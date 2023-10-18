@@ -1,0 +1,140 @@
+.categories {
+  margin: 4rem auto;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.categories img {
+  width: 350px;
+  height: 460px;
+  object-fit: cover;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.category {
+  transition: 0.3s;
+  position: relative;
+}
+
+.category:hover {
+  transform: scale(1.01);
+  filter: brightness(80%);
+}
+
+.middle__category {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 350px;
+}
+
+.middle__category img {
+  height: 220px;
+}
+
+.category__info {
+  cursor: pointer;
+  color: white;
+  position: absolute;
+  bottom: 5%;
+  left: 10%;
+  transform: translate(-10%, -5%);
+}
+
+.left__category,
+.right__category {
+  width: 350px;
+  height: 460px;
+}
+
+
+
+@media (max-width: 1400px) {
+  .categories {
+    grid-auto-flow: row;
+    grid-template-columns: 350px 350px;
+    column-gap: 1.5rem;
+    row-gap: 1.5rem;
+  }
+  .right__category {
+    width: 720px;
+    height: 200px;
+  }
+  .right__category img {
+    width: 720px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .categories {
+    grid-template-columns: 250px 250px;
+  }
+  .right__category {
+    width: 530px;
+    height: 150px;
+  }
+  .right__category img {
+    width: 530px;
+    height: 150px;
+  }
+  .left__category,
+  .middle__category {
+    width: 250px;
+  }
+  .left__category img,
+  .middle__category img {
+    width: 250px;
+  }
+}
+
+@media (max-width: 720px) {
+  .categories {
+    grid-template-columns: 250px 250px;
+    width: 100%;
+  }
+  .right__category,
+  .right__category img {
+    height: 220px;
+    width: 250px;
+  }
+  .left__category img,
+  .middle__category img,
+  .left__category,
+  .middle__category {
+    height: 220px;
+    width: 250px;
+  }
+}
+
+
+
+@media (max-width: 620px) {
+  .categories {
+    grid-template-columns: 150px 150px;
+  }
+  .right__category,
+  .right__category img {
+    height: 150px;
+    width: 150px;
+  }
+  .left__category img,
+  .middle__category img,
+  .left__category,
+  .middle__category {
+    height: 150px;
+    width: 150px;
+  }
+
+  .category__info h3{
+    font-size: 13px;
+  }
+  .category__info p{
+    font-size: 13px;
+  }
+}
+

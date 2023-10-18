@@ -1,0 +1,19 @@
+.Support_splide {
+  margin-top: 1.2rem;
+  border-bottom: 1px solid var(--backgound-color);
+  padding-bottom: 2.5rem;
+}
+
+.Support_splide_container{
+    position: relative;
+}
+
+.Support_splide_overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    z-index: 2;
+}

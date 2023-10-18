@@ -1,0 +1,35 @@
+.Info_Widget h3 {
+  font-size: 1.1rem;
+}
+
+.Info_Widget p {
+  color: gray;
+  margin: 0.7rem 0;
+  max-width: 350px;
+}
+
+.Info_Widget a {
+  text-decoration: underline;
+  color: black;
+  font-weight: bold;
+}
+
+@media (max-width: 950px) {
+  .Info_Widget p {
+    max-width: 400px;
+    width: 100%;
+  }
+  .Info_Widget {
+    width: 120%;
+  }
+}
+
+@media (max-width: 600px) {
+    .Info_Widget p {
+      max-width: 400px;
+      width: 100%;
+    }
+    .Info_Widget {
+      width: 100%;
+    }
+  }
