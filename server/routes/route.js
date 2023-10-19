@@ -9,11 +9,9 @@ import connectDB from "../database/conn.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import mime from "mime-types";
 
-
 const router = Router();
 
 const uploadMiddleware = multer({ dest: "/tmp" });
-
 
 // upload pictures to AWS
 async function uploadToS3(newPath, originalFilename, mimetype) {
@@ -50,7 +48,7 @@ router.post(
     connectDB();
 
     try {
-      const {originalname, path , mimetype} = req.file;
+      const { originalname, path, mimetype } = req.file;
       const newPath = path.replace(/\\/g, "/");
       const url = await uploadToS3(newPath, originalname, mimetype);
 
@@ -97,10 +95,9 @@ router.put(
   async (req, res) => {
     connectDB();
 
-    const { mimetype, path , originalname } = req?.file;
+    const { mimetype, path, originalname } = req?.file;
     const newPath = path.replace(/\\/g, "/");
     const url = await uploadToS3(newPath, originalname, mimetype);
-
 
     const { token } = req.cookies;
     jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
@@ -177,7 +174,15 @@ router.post("/api/login", async (req, res) => {
         ENV.JWT_SECRET,
         (err, token) => {
           if (err) throw err;
-          res.status(200).cookie("token", token , { domain: "https://roomsy-v3.vercel.app" , path:"/" }).json({ id: user._id });
+          res
+            .status(200)
+            .cookie("token", token, {
+              domain: "https://roomsy-v3.vercel.app",
+              path: "/",
+              maxAge: 30 * 24 * 60 * 60 * 1000,
+              secure: true,
+            })
+            .json({ id: user._id });
         }
       );
     }
