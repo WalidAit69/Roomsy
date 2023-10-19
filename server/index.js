@@ -11,7 +11,7 @@ import uploadbylinkMiddleware from "./uploadbylinkMiddleware.cjs";
 const app = express();
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "https://roomsy-2.vercel.app/" }));
+app.use(cors({ credentials: true, origin: "https://roomsy-v3.vercel.app/" }));
 app.disable("x-powered-by");
 app.use(morgan("tiny"));
 app.use(cookieParser());
