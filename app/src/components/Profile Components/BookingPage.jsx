@@ -13,9 +13,7 @@ function BookingPage() {
 
     async function getBookings() {
         try {
-            const { data } = await axios.get("/Bookings", {
-                withCredentials: true
-            })
+            const { data } = await axios.get("/Bookings")
             setbookings(data);
             setisLoading(false);
         } catch (error) {
