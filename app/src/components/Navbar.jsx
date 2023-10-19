@@ -99,7 +99,7 @@ function Navbar() {
 
   async function Logout() {
     try {
-      const res = await axios.get("/api/logout");
+      const res = await axios.get("/logout");
       clearCookie('token');
       window.location.href = '/';
     } catch (error) {
