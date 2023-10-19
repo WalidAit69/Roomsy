@@ -8,6 +8,7 @@ import { faHeart as heart, faArrowLeft, faArrowUpFromBracket, faLocationDot } fr
 import { faHeart, faPenToSquare, faStar } from '@fortawesome/free-regular-svg-icons';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import Image from '../../components/AddPlace Components/Image';
 
 
 function ImageSlider({ images, isLoading, isLiked, handleLikeClick, handleEditClick, Placeuserid, currentuserid, PlaceRate, place, googleMapsURL }) {
@@ -56,7 +57,7 @@ function ImageSlider({ images, isLoading, isLiked, handleLikeClick, handleEditCl
                     {images && !isLoading ? images.map((image, index) => {
                         return <div className='Place_slider_img' key={index}>
                             <p>{index + 1}/{images.length}</p>
-                            <img src={`/server/routes/uploads/${image}`} alt="" />
+                            <Image src={image} alt="" />
                         </div>
                     }) : <Skeleton height={"500px"} width={"500px"} className='' />}
                 </Slider>

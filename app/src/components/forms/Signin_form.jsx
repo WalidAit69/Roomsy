@@ -43,12 +43,11 @@ function Signin_form() {
       const response = await axios.post("/login", {
         email:email.value,
         password:password.value,
-      },config);
+      });
       
       setisLoading(false);
       togglePopup();
       localStorage.setItem('userID' , response?.data?.id)
-      window.location.reload();
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       console.error(error);
