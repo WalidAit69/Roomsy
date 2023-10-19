@@ -125,6 +125,9 @@ function BookedPlace() {
 
     const CurrentUser = localStorage.getItem("userID");
 
+    let src = "";
+    src = customer?.profilepic && customer?.profilepic.includes('https://') ? customer?.profilepic
+          : "http://localhost:3001/" + customer?.profilepic;
 
     return (
         <>
@@ -237,7 +240,7 @@ function BookedPlace() {
                                 </div> : <Skeleton width={"250px"} />}
 
                                 {!isLoading ? <Link to={`/user/show/${Placeuserid}`} className="place_host">
-                                    <img src={`/${customer?.profilepic}`} alt="" />
+                                    <img src={src} alt="" />
                                     <FontAwesomeIcon className='ratingicon ratingicon_user' icon={faStar} />
                                 </Link> : <Skeleton width={"50px"} height={"50px"} borderRadius={"50%"} />}
                             </div>

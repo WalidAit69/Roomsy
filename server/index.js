@@ -12,6 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ credentials: true, origin: "https://roomsy-v3.vercel.app" }));
+// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.disable("x-powered-by");
 app.use(morgan("tiny"));
 app.use(cookieParser());
@@ -26,7 +27,7 @@ app.get("/testing", (req, res) => {
   res.send("testing get Request");
 });
 
-app.use("/api", router);
+app.use(router);
 app.use(placerouter);
 
 const port = 3001;

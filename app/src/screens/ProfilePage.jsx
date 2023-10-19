@@ -42,7 +42,7 @@ function ProfilePage() {
 
 
   async function getUser() {
-    const { data } = await axios.get(`/api/user/${id}`)
+    const { data } = await axios.get(`/user/${id}`)
     setuser(data);
   }
 
@@ -112,13 +112,13 @@ function ProfilePage() {
 
     const axiowithimgConfig = {
       method: 'put',
-      url: '/api/UpdateUserimg',
+      url: '/UpdateUserimg',
       data: data,
       withCredentials: true,
     }
     const axioConfig = {
       method: 'put',
-      url: '/api/UpdateUser',
+      url: '/UpdateUser',
       data: {
         job,
         lang,
