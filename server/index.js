@@ -22,6 +22,10 @@ app.get("/", (req, res) => {
   res.send("Home get Request");
 });
 
+app.get("/testing", (req, res) => {
+  res.send("testing get Request");
+});
+
 app.use("/api", router);
 app.use(placerouter);
 
