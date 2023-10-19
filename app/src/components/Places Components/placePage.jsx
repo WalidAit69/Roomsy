@@ -211,7 +211,7 @@ function PlacePage() {
 
     let src = "";
     src = place?.owner?.profilepic && place?.owner?.profilepic.includes('https://') ? place?.owner?.profilepic
-          : "http://localhost:3001/" + place?.owner?.profilepic;
+          : "https://roomsy-v3-server.vercel.app/" + place?.owner?.profilepic;
 
     return (
         <>

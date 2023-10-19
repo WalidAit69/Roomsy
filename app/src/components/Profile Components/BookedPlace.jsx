@@ -127,7 +127,7 @@ function BookedPlace() {
 
     let src = "";
     src = customer?.profilepic && customer?.profilepic.includes('https://') ? customer?.profilepic
-          : "http://localhost:3001/" + customer?.profilepic;
+          : "https://roomsy-v3-server.vercel.app/" + customer?.profilepic;
 
     return (
         <>

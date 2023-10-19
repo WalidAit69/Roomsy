@@ -155,7 +155,7 @@ function ProfilePage() {
 
   let src = "";
   src = user.profilepic && user.profilepic.includes('https://') ? user.profilepic
-        : "http://localhost:3001/" + user.profilepic;
+        : "https://roomsy-v3-server.vercel.app/" + user.profilepic;
 
 
   return (
