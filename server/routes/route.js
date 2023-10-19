@@ -172,18 +172,13 @@ router.post("/api/login", async (req, res) => {
           Superhost: user.Superhost,
         },
         ENV.JWT_SECRET,
+        {expiresIn: 60 * 60},
         (err, token) => {
           if (err) throw err;
           res
             .status(200)
-            .cookie("token", token, {
-              domain: "https://roomsy-v3.vercel.app",
-              path: "/",
-              maxAge: 30 * 24 * 60 * 60 * 1000,
-              secure: true,
-              httpOnly: true,
-            })
-            .json({ id: user._id });
+            .cookie("token", token)
+            .json({ id: user._id , accesstoken:token});
         }
       );
     }
