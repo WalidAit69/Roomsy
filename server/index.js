@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://yourwebsite.vercel.app"
+    "https://roomsy-v3.vercel.app"
   );
   res.setHeader("Access-Control-Allow-Credentials", "true");
 
