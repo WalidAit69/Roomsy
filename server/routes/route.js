@@ -181,6 +181,7 @@ router.post("/api/login", async (req, res) => {
               path: "/",
               maxAge: 30 * 24 * 60 * 60 * 1000,
               secure: true,
+              httpOnly: true,
             })
             .json({ id: user._id });
         }
