@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { MyContext } from "../../App";
+import Cookies from "js-cookie";
 
 
 
@@ -44,10 +45,13 @@ function Signin_form() {
         email:email.value,
         password:password.value,
       });
-      
+
+      const token = response?.data?.accesstoken;
+      Cookies.set("token", token, { expires: 1 / 24 }); // 1/24 represents 1 hour
+      localStorage.setItem('userID' , response?.data?.id)
+
       setisLoading(false);
       togglePopup();
-      localStorage.setItem('userID' , response?.data?.id)
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       console.error(error);
