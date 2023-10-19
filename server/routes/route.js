@@ -177,7 +177,7 @@ router.post("/api/login", async (req, res) => {
         ENV.JWT_SECRET,
         (err, token) => {
           if (err) throw err;
-          res.status(200).cookie("token", token).json({ id: user._id });
+          res.status(200).cookie("token", token , { domain: "https://roomsy-v3.vercel.app" , path:"/" }).json({ id: user._id });
         }
       );
     }
