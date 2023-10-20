@@ -12,12 +12,13 @@ import Bookingmodel from "../model/Bookingmodel.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
-import mongoose from "mongoose";
+
 
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
 const port = 3001;
+
 
 // upload pictures to AWS
 async function uploadToS3(newpath, originalFilename, mimetype) {
@@ -54,16 +55,15 @@ placerouter.post("/api/upload-by-link", async (req, res) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const newName = "photo" + Date.now() + ".jpg";
-    const destinationPath = join("/tmp/", newName).replace(/\\/g, "/");
+    const destinationPath = join("/tmp/", newName).replace(
+      /\\/g,
+      "/"
+    );
     await imageDownloader.image({
       url: link,
       dest: destinationPath,
     });
-    const url = await uploadToS3(
-      destinationPath,
-      newName,
-      mime.lookup(destinationPath)
-    );
+    const url = await uploadToS3(destinationPath , newName , mime.lookup(destinationPath))
     res.json(url);
   } catch (error) {
     console.error("Error Adding photo:", error);
@@ -297,7 +297,7 @@ placerouter.put("/api/place", async (req, res) => {
 
 // get all places
 placerouter.get("/api/places", async (req, res) => {
-  mongoose.connect("mongodb+srv://walidait:samyboy2001@cluster0.pegs8pf.mongodb.net/?retryWrites=true&w=majority");
+  connectDB();
 
   try {
     const places = await Placemodel.find().sort({ createdAt: -1 });
@@ -361,23 +361,20 @@ placerouter.get("/api/placesByCountry/:country", async (req, res) => {
 });
 
 // get places by location and type
-placerouter.get(
-  "/api/placesByCountryAndType/:country/:type",
-  async (req, res) => {
-    connectDB();
+placerouter.get("/api/placesByCountryAndType/:country/:type", async (req, res) => {
+  connectDB();
 
-    const { country, type } = req.params;
-    try {
-      const places = await Placemodel.find({ country, type }).sort({
-        createdAt: -1,
-      });
-      res.status(200).json(places);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
-    }
+  const { country, type } = req.params;
+  try {
+    const places = await Placemodel.find({ country, type }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(places);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
-);
+});
 
 // get places by search
 placerouter.get(
@@ -676,10 +673,10 @@ placerouter.get("/api/Bookings", async (req, res) => {
         return res.status(200).json(bookingdoc);
       });
     } else {
-      res.status(404).json("User not Found", token);
+      res.status(404).json("User not Found",token);
     }
   } catch (error) {
-    console.error("error:", error);
+    console.error("error:" , error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
