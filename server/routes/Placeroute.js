@@ -15,6 +15,7 @@ import connectDB from "../database/conn.js";
 import mime from "mime-types";
 import cookieParser from "cookie-parser";
 
+const app = express();
 
 app.use(cookieParser());
 const placerouter = Router();
