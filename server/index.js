@@ -18,6 +18,7 @@ app.disable("x-powered-by");
 app.use(morgan("tiny"));
 app.use("/uploads", uploadMiddleware);
 app.use("/server/routes/uploads", uploadbylinkMiddleware);
+app.set("trust proxy", 1);
 
 const port = 3001;
 

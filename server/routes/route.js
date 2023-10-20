@@ -171,13 +171,18 @@ router.post("/api/login", async (req, res) => {
           Superhost: user.Superhost,
         },
         process.env.JWT_SECRET,
-        {expiresIn: 60 * 60},
+        { expiresIn: 60 * 60 },
         (err, token) => {
           if (err) throw err;
           res
             .status(200)
-            .cookie("token", token)
-            .json({ id: user._id , accesstoken:token});
+            .cookie("token", token, {
+              httpOnly: true,
+              secure: true,
+              maxAge: 1000 * 60 * 60 * 48,
+              sameSite: "none",
+            })
+            .json({ id: user._id, accesstoken: token });
         }
       );
     }
