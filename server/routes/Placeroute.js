@@ -13,11 +13,8 @@ import Bookingmodel from "../model/Bookingmodel.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
-import cookieParser from "cookie-parser";
 
-const app = express();
 
-app.use(cookieParser());
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
