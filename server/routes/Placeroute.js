@@ -13,7 +13,10 @@ import Bookingmodel from "../model/Bookingmodel.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
+import cookieParser from "cookie-parser";
 
+
+app.use(cookieParser());
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
@@ -666,7 +669,7 @@ placerouter.get("/api/Bookings", async (req, res) => {
         return res.status(200).json(bookingdoc);
       });
     } else {
-      res.status(404).json("User not Found");
+      res.status(404).json("User not Found",token);
     }
   } catch (error) {
     console.error(error);

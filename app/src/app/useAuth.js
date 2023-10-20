@@ -6,9 +6,13 @@ function useAuth({user , setuser}) {
     const id = localStorage.getItem("userID");
 
     async function getUser() {
-        await axios.get(`/user/${id}`).then((res) => {
-            setuser(res.data);
-        });
+        try {
+            await axios.get(`/user/${id}`).then((res) => {
+                setuser(res.data);
+            });
+        } catch (error) {
+            console.log("User not found")
+        }
     }
 
     useEffect(() => {
