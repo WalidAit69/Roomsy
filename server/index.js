@@ -19,7 +19,19 @@ app.use(morgan("tiny"));
 app.use("/uploads", uploadMiddleware);
 app.use("/server/routes/uploads", uploadbylinkMiddleware);
 
-connectDB();
+const port = 3001;
+
+connectDB().then(() =>{
+  try {
+      app.listen(port, () => {
+          console.log(`Server running on port ${port}`);
+      });
+  } catch (error) {
+      console.log("cannot connect to the server");
+  }
+}).catch(error =>{
+  console.log("invalid database");
+})
 
 app.get("/", (req, res) => {
   res.send("Home get Request");
