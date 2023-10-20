@@ -181,7 +181,7 @@ router.post("/api/login", async (req, res) => {
               secure: true,
               maxAge: 1000 * 60 * 60 * 48,
               sameSite: "none",
-              domain: 'https://roomsy-v3.vercel.app/'
+              domain: 'https://roomsy-v5.vercel.app/'
             })
             .json({ id: user._id, accesstoken: token });
         }
