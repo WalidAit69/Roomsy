@@ -38,6 +38,10 @@ app.get("/", (req, res) => {
   res.send("Home get Request");
 });
 
+app.get("/test", (req, res) => {
+  res.send("Home get Request");
+});
+
 
 app.use(router);
 app.use(placerouter);
