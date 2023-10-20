@@ -7,7 +7,6 @@ import { fileURLToPath } from "url";
 import { unlink } from "fs/promises";
 import Placemodel from "../model/Placemodel.js";
 import jwt from "jsonwebtoken";
-import ENV from "../config.js";
 import Usermodel from "../model/Usermodel.js";
 import Bookingmodel from "../model/Bookingmodel.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
@@ -25,8 +24,8 @@ async function uploadToS3(newpath, originalFilename, mimetype) {
   const client = new S3Client({
     region: "eu-west-3",
     credentials: {
-      accessKeyId: ENV.S3_ACCESS_KEY,
-      secretAccessKey: ENV.S3_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
     },
   });
   const ext = originalFilename.split(".")[1];
@@ -34,7 +33,7 @@ async function uploadToS3(newpath, originalFilename, mimetype) {
 
   const data = await client.send(
     new PutObjectCommand({
-      Bucket: ENV.BUCKETNAME,
+      Bucket: process.env.BUCKETNAME,
       Body: fs.readFileSync(newpath),
       Key: newFilename,
       ContentType: mimetype,
@@ -43,7 +42,7 @@ async function uploadToS3(newpath, originalFilename, mimetype) {
   );
 
   console.log({ data });
-  return `https://${ENV.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
+  return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
 // upload pictures with link to aws
@@ -195,7 +194,7 @@ placerouter.post("/api/place", async (req, res) => {
 
   const { token } = req.cookies;
   try {
-    jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
       const Userid = info.Userid;
       const user = await Usermodel.findById(Userid);
@@ -440,7 +439,7 @@ placerouter.post("/api/save/:id", async (req, res) => {
     const { token } = req.cookies;
     const { id } = req.params;
 
-    jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
 
       const followerId = info.Userid;
@@ -506,7 +505,7 @@ placerouter.post("/api/reviews/:placeid", async (req, res) => {
   const { token } = req.cookies;
   const { comment, rating } = req.body;
   try {
-    jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
 
       const Userid = info.Userid;
@@ -556,7 +555,7 @@ placerouter.delete("/api/deletereview/:id/:index", async (req, res) => {
   const { id, index } = req.params;
   const { token } = req.cookies;
   try {
-    jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
 
       const Userid = info.Userid;
@@ -607,7 +606,7 @@ placerouter.post("/api/addBooking", async (req, res) => {
   } = req.body;
   const { token } = req.cookies;
   try {
-    jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
       const Userid = info.Userid;
 
@@ -656,9 +655,13 @@ placerouter.get("/api/Bookings", async (req, res) => {
 
   try {
     const { token } = req.cookies;
-    console.log("Token:", token);
+
+    if (!token) {
+      return res.status(401).json({ error: "Token not found" });
+    }
+
     if (token) {
-      jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+      jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
         if (err) throw err;
         const Userid = info.Userid;
 
@@ -683,7 +686,7 @@ placerouter.get("/api/Booked", async (req, res) => {
   const { token } = req.cookies;
   try {
     if (token) {
-      jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+      jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
         if (err) throw err;
         const Hostid = info.Userid;
 

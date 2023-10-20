@@ -11,14 +11,13 @@ import uploadbylinkMiddleware from "./uploadbylinkMiddleware.cjs";
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "https://roomsy-v3.vercel.app" }));
 // app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.disable("x-powered-by");
 app.use(morgan("tiny"));
-app.use(cookieParser());
 app.use("/uploads", uploadMiddleware);
 app.use("/server/routes/uploads", uploadbylinkMiddleware);
-
 
 connectDB();
 

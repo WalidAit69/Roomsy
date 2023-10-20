@@ -2,7 +2,6 @@ import { Router } from "express";
 import UserModel from "../model/Usermodel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import ENV from "../config.js";
 import multer from "multer";
 import fs from "fs";
 import connectDB from "../database/conn.js";
@@ -19,8 +18,8 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   const client = new S3Client({
     region: "eu-west-3",
     credentials: {
-      accessKeyId: ENV.S3_ACCESS_KEY,
-      secretAccessKey: ENV.S3_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
     },
   });
   const ext = originalFilename.split(".")[1];
@@ -28,7 +27,7 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
 
   const data = await client.send(
     new PutObjectCommand({
-      Bucket: ENV.BUCKETNAME,
+      Bucket: process.env.BUCKETNAME,
       Body: fs.readFileSync(newPath),
       Key: newFilename,
       ContentType: mimetype,
@@ -37,7 +36,7 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   );
 
   console.log({ data });
-  return `https://${ENV.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
+  return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
 // Register
@@ -100,7 +99,7 @@ router.put(
     const url = await uploadToS3(newPath, originalname, mimetype);
 
     const { token } = req.cookies;
-    jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+    jwt.verify(token, process.process.env.JWT_SECRET, {}, async (err, info) => {
       if (err) throw err;
       const Userid = info.Userid;
 
@@ -126,7 +125,7 @@ router.put("/api/UpdateUser", async (req, res) => {
   connectDB();
 
   const { token } = req.cookies;
-  jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
     if (err) throw err;
     const Userid = info.Userid;
 
@@ -171,7 +170,7 @@ router.post("/api/login", async (req, res) => {
           host: user.host,
           Superhost: user.Superhost,
         },
-        ENV.JWT_SECRET,
+        process.env.JWT_SECRET,
         {expiresIn: 60 * 60},
         (err, token) => {
           if (err) throw err;
