@@ -11,7 +11,7 @@ function useAuth({user , setuser}) {
                 setuser(res.data);
             });
         } catch (error) {
-            console.log("User not found")
+            console.error("User not found")
         }
     }
 

@@ -656,6 +656,7 @@ placerouter.get("/api/Bookings", async (req, res) => {
 
   try {
     const { token } = req.cookies;
+    console.log("Token:", token);
     if (token) {
       jwt.verify(token, ENV.JWT_SECRET, {}, async (err, info) => {
         if (err) throw err;
