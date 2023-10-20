@@ -671,7 +671,7 @@ placerouter.get("/api/Bookings", async (req, res) => {
       res.status(404).json("User not Found",token);
     }
   } catch (error) {
-    console.error(error);
+    console.error("error:" , error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
