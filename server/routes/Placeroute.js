@@ -12,6 +12,7 @@ import Bookingmodel from "../model/Bookingmodel.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
+import mongoose from "mongoose";
 
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
@@ -296,19 +297,7 @@ placerouter.put("/api/place", async (req, res) => {
 
 // get all places
 placerouter.get("/api/places", async (req, res) => {
-  connectDB()
-    .then(() => {
-      try {
-        app.listen(port, () => {
-          console.log(`Server running on port ${port}`);
-        });
-      } catch (error) {
-        console.log("cannot connect to the server");
-      }
-    })
-    .catch((error) => {
-      console.log("invalid database");
-    });
+  mongoose.connect("mongodb+srv://walidait:samyboy2001@cluster0.pegs8pf.mongodb.net/?retryWrites=true&w=majority");
 
   try {
     const places = await Placemodel.find().sort({ createdAt: -1 });
