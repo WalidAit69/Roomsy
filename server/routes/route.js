@@ -177,7 +177,7 @@ router.post("/api/login", async (req, res) => {
           res
             .status(200)
             .cookie("token", token, {
-              httpOnly: true,
+              httpOnly: false,
               secure: true,
               maxAge: 1000 * 60 * 60 * 48,
               sameSite: "none",
