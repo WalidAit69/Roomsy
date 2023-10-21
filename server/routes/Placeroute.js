@@ -125,12 +125,12 @@ placerouter.post(
 );
 
 // delete pictures
-placerouter.delete("/api/delete-photo/:filename", async (req, res) => {
+placerouter.delete("/api/delete-photo", async (req, res) => {
   connectDB();
-  const { filename } = req.params;
+  const { filename } = req.body;
 
   try {
-    
+
     res.json(filename)
 
   } catch (error) {
