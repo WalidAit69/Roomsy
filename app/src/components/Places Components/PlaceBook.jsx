@@ -60,14 +60,15 @@ function PlaceBook({ opened, close, numberofDays, place, PlaceRate, checkin, che
 
     const [isLoading, setisLoading] = useState(false);
 
+    const Userid = localStorage.getItem("userID");
+
     async function BookthisPlace() {
         if (fullRadio || halfRadio) {
             setisLoading(true);
             try {
                 const bookconfig = {
                     method: "post",
-                    url: `/addBooking`,
-                    withCredentials: true,
+                    url: `/addBooking/${Userid}`,
                     data: {
                         id,
                         host,

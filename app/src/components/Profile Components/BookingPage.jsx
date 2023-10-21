@@ -13,7 +13,8 @@ function BookingPage() {
 
     async function getBookings() {
         try {
-            const { data } = await axios.get("/Bookings")
+            const id = localStorage.getItem("userID");
+            const  {data}  = await axios.get(`/BookingPlaces/${id}`)
             setbookings(data);
             setisLoading(false);
         } catch (error) {

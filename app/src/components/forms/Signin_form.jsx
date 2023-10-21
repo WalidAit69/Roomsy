@@ -34,27 +34,20 @@ function Signin_form() {
   const login2 = async () => {
     try {
       setisLoading(true);
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      }
-
       const response = await axios.post("/login", {
         email:email.value,
         password:password.value,
       });
-
       const token = response?.data?.accesstoken;
       Cookies.set("token", token, { expires: 1 / 24 }); // 1/24 represents 1 hour
       localStorage.setItem('userID' , response?.data?.id)
-
       setisLoading(false);
       togglePopup();
+      window.location.reload();
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       console.error(error);
+      setisLoading(false);
     }
   };
 

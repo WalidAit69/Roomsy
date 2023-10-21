@@ -7,8 +7,35 @@ import Rating from 'react-rating-stars-component';
 import axios from "axios";
 
 
-function Reviews({ id, place }) {
+function Reviews({ id }) {
     const currentuserid = localStorage.getItem("userID");
+    const [place, setplace] = useState();
+    const [reviews, setreviews] = useState();
+
+    async function getPlace() {
+        const { data } = await axios.get(`/place/${id}`)
+        setplace(data);
+    }
+
+    const handleDeleteClick = async (index) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this item?');
+
+        if (isConfirmed) {
+            const res = await axios.delete(`/deletereview/${id}/${index}/${currentuserid}`)
+            getPlace();
+        } else {
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        getPlace();
+    }, [])
+
+    useEffect(() => {
+        setreviews(place?.reviews);
+    }, [place])
+
 
     const customemptyStar = (
         <FontAwesomeIcon icon={faStar} />
@@ -17,19 +44,6 @@ function Reviews({ id, place }) {
     const customfilledStar = (
         <FontAwesomeIcon icon={star} />
     );
-
-    const handleDeleteClick = async (index) => {
-        const isConfirmed = window.confirm('Are you sure you want to delete this item?');
-
-        if (isConfirmed) {
-            const res = await axios.delete(`/deletereview/${id}/${index}`, {
-                withCredentials: true,
-            })
-            window.location.reload();
-        } else {
-            return null;
-        }
-    };
 
     const [ScreenWidth, setScreenWidth] = useState(window.innerWidth)
 
@@ -46,17 +60,25 @@ function Reviews({ id, place }) {
     }, [])
 
 
+    let src = "";
+    {
+        reviews && reviews.map((review) => {
+            src = review?.userPhoto && review?.userPhoto.includes('https://') ? review?.userPhoto
+                : "https://roomsy-v3-server.vercel.app/" + review?.userPhoto;
+        })
+    }
+
 
     return (
         <>
             {<div className='Reviews_container Place_reviews'>
-                {place?.reviews?.length > 0 && <h2>Reviews</h2>}
+                {reviews?.length > 0 && <h2>Reviews</h2>}
                 <div className='Review_Container'>
                     <ul>
-                        {place.reviews && place.reviews.map((review, index) => (
+                        {reviews && reviews.map((review, index) => (
                             <div key={index}>
                                 <div className='review'>
-                                    <img src={`/${review.userPhoto}`} alt="" />
+                                    <img src={src} alt="" />
 
                                     <div className='review_info'>
                                         <div className='review_author'>

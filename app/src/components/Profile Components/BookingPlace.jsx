@@ -259,7 +259,7 @@ function BookingPlace() {
                             </div>
 
                             {!isLoading && <div className='leave_review'>
-                                <Review id={place?._id}></Review>
+                                <Review placeid={place?._id}></Review>
                             </div>}
                         </div>
                     </div>

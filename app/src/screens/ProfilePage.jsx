@@ -40,6 +40,7 @@ function ProfilePage() {
 
   const { id } = useParams()
 
+  const Userid = window.localStorage.getItem("userID")
 
   async function getUser() {
     const { data } = await axios.get(`/user/${id}`)
@@ -112,29 +113,25 @@ function ProfilePage() {
 
     const axiowithimgConfig = {
       method: 'put',
-      url: '/UpdateUserimg',
+      url: `/UpdateUserimg/${Userid}`,
       data: data,
-      withCredentials: true,
     }
     const axioConfig = {
       method: 'put',
-      url: '/UpdateUser',
+      url: `/UpdateUser/${Userid}`,
       data: {
         job,
         lang,
         bio
       },
-      withCredentials: true,
     }
 
     if (files[0]) {
       const { data } = await axios(axiowithimgConfig)
-      console.log(data)
     }
 
     if (!files[0]) {
       const { data } = await axios(axioConfig)
-      console.log(data)
     }
 
   }
@@ -149,7 +146,7 @@ function ProfilePage() {
   }
 
   function handlePhotoEdit() {
-    constfileInput = document.getElementById('profilepic');
+    constfileInput = document.querySelector('profilepic');
     fileInput.click();
   };
 
@@ -177,14 +174,14 @@ function ProfilePage() {
             <div className="user_card">
               <div className="user_card_img">
                 <div>
-                  <input type="file" name="profilepic" id="profilepic" hidden accept="image/*" onChange={({ target: { files } }) => {
+                  <input type="file" name="profilepic" className="profilepic" hidden accept="image/*" onChange={({ target: { files } }) => {
                     if (files) {
                       setimage(URL.createObjectURL(files[0]));
                       setfiles(files);
                     }
                   }} />
                   {!user.profilepic ? <Skeleton className="user_card_img_image" /> : <img className="user_card_img_image" src={image ? image : src} alt="" />}
-                  {showEdit && <FontAwesomeIcon icon={faPen} className="Profile_img_edit" onClick={handlePhotoEdit}></FontAwesomeIcon>}
+                  {showEdit && <FontAwesomeIcon icon={faPen} className="Profile_img_edit" onClick={() => { document.querySelector('.profilepic').click() }}></FontAwesomeIcon>}
                 </div>
                 {!user.fullname ? <Skeleton /> : <h1>{user.fullname}</h1>}
                 {user.host && <p>Host</p>}

@@ -9,7 +9,6 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import mime from "mime-types";
 import dotenv from "dotenv";
 
-
 const router = Router();
 dotenv.config();
 
@@ -92,7 +91,7 @@ router.post(
 
 //update user
 router.put(
-  "/api/UpdateUserimg",
+  "/api/UpdateUserimg/:Userid",
   uploadMiddleware.single("file"),
   async (req, res) => {
     connectDB();
@@ -101,11 +100,8 @@ router.put(
     const newPath = path.replace(/\\/g, "/");
     const url = await uploadToS3(newPath, originalname, mimetype);
 
-    const { token } = req.cookies;
-    jwt.verify(token, process.process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) throw err;
-      const Userid = info.Userid;
-
+    const {Userid} = req.params;
+    if (Userid) {
       const { job, bio, lang } = req.body;
       const userDoc = await UserModel.findById(Userid);
       if (!userDoc) {
@@ -120,32 +116,33 @@ router.put(
       });
 
       res.status(200).json(userDoc);
-    });
+    }
   }
 );
 
-router.put("/api/UpdateUser", async (req, res) => {
+router.put("/api/UpdateUser/:Userid", async (req, res) => {
   connectDB();
 
-  const { token } = req.cookies;
-  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-    if (err) throw err;
-    const Userid = info.Userid;
+  const {Userid} = req.params;
+  if (Userid) {
+    try {
+      const { job, bio, lang } = req.body;
+      const userDoc = await UserModel.findById(Userid);
+      if (!userDoc) {
+        return res.status(404).json({ msg: "User not found" });
+      }
 
-    const { job, bio, lang } = req.body;
-    const userDoc = await UserModel.findById(Userid);
-    if (!userDoc) {
-      return res.status(404).json({ msg: "User not found" });
+      await userDoc.updateOne({
+        job: job ? job : userDoc.job,
+        bio: bio ? bio : userDoc.bio,
+        lang: lang ? lang : userDoc.lang,
+      });
+
+      res.status(200).json(userDoc);
+    } catch (error) {
+      res.status(500).json("Error");
     }
-
-    await userDoc.updateOne({
-      job: job ? job : userDoc.job,
-      bio: bio ? bio : userDoc.bio,
-      lang: lang ? lang : userDoc.lang,
-    });
-
-    res.status(200).json(userDoc);
-  });
+  }
 });
 
 //Login

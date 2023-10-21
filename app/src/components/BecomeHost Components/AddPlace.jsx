@@ -73,9 +73,7 @@ function AddPlace({ opened, setOpened, id, placeimages }) {
             owner,
         };
 
-        const { data } = await axios.post('/place', placedata, {
-            withCredentials: true,
-        })
+        const { data } = await axios.post(`/place/${owner}`, placedata)
         window.location.reload();
     }
 

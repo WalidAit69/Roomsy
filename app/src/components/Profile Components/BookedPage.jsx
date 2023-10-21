@@ -11,9 +11,8 @@ function BookedPage() {
 
     async function getBooked() {
         try {
-            const { data } = await axios.get("/Booked", {
-                withCredentials: true
-            })
+            const id = localStorage.getItem("userID");
+            const { data } = await axios.get(`/Booked/${id}`)
             setBooked(data);
             setisLoading(false);
         } catch (error) {
@@ -23,18 +22,18 @@ function BookedPage() {
 
     useEffect(() => {
         getBooked();
-        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, [])
 
     const id = localStorage.getItem("userID");
 
     return (
         <section className='container bookings_section dim_overlay'>
-             {id && <div className="bookings">
-                {!isLoading ? (Booked?.length > 0 ? <h1>Your Booked Places</h1> : <h1>No Booked Places</h1>): (<Skeleton width={"200px"}/>)}
+            {id && <div className="bookings">
+                {!isLoading ? (Booked?.length > 0 ? <h1>Your Booked Places</h1> : <h1>No Booked Places</h1>) : (<Skeleton width={"200px"} />)}
                 {Booked && !isLoading ? Booked.map((booking) => {
                     return <BookedCard key={booking._id} {...booking}></BookedCard>
-                }):<Skeleton width={'1000px'} height={'200px'}/>}
+                }) : <Skeleton width={'1000px'} height={'200px'} />}
             </div>}
         </section>
     )

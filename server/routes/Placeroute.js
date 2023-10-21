@@ -14,12 +14,10 @@ import connectDB from "../database/conn.js";
 import mime from "mime-types";
 import dotenv from "dotenv";
 
-
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
 dotenv.config();
-
 
 // upload pictures to AWS
 async function uploadToS3(newpath, originalFilename, mimetype) {
@@ -56,15 +54,16 @@ placerouter.post("/api/upload-by-link", async (req, res) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const newName = "photo" + Date.now() + ".jpg";
-    const destinationPath = join("/tmp/", newName).replace(
-      /\\/g,
-      "/"
-    );
+    const destinationPath = join("/tmp/", newName).replace(/\\/g, "/");
     await imageDownloader.image({
       url: link,
       dest: destinationPath,
     });
-    const url = await uploadToS3(destinationPath , newName , mime.lookup(destinationPath))
+    const url = await uploadToS3(
+      destinationPath,
+      newName,
+      mime.lookup(destinationPath)
+    );
     res.json(url);
   } catch (error) {
     console.error("Error Adding photo:", error);
@@ -169,7 +168,7 @@ placerouter.delete("/api/delete-photo/:id/:filename", async (req, res) => {
 });
 
 // add a place
-placerouter.post("/api/place", async (req, res) => {
+placerouter.post("/api/place/:Userid", async (req, res) => {
   connectDB();
 
   const {
@@ -195,11 +194,8 @@ placerouter.post("/api/place", async (req, res) => {
     owner,
   } = req.body;
 
-  const { token } = req.cookies;
   try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) throw err;
-      const Userid = info.Userid;
+    if (Userid) {
       const user = await Usermodel.findById(Userid);
 
       if (!user) {
@@ -233,7 +229,7 @@ placerouter.post("/api/place", async (req, res) => {
         res.json(placeDoc);
         await user.save();
       }
-    });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json(error);
@@ -362,20 +358,23 @@ placerouter.get("/api/placesByCountry/:country", async (req, res) => {
 });
 
 // get places by location and type
-placerouter.get("/api/placesByCountryAndType/:country/:type", async (req, res) => {
-  connectDB();
+placerouter.get(
+  "/api/placesByCountryAndType/:country/:type",
+  async (req, res) => {
+    connectDB();
 
-  const { country, type } = req.params;
-  try {
-    const places = await Placemodel.find({ country, type }).sort({
-      createdAt: -1,
-    });
-    res.status(200).json(places);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    const { country, type } = req.params;
+    try {
+      const places = await Placemodel.find({ country, type }).sort({
+        createdAt: -1,
+      });
+      res.status(200).json(places);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-});
+);
 
 // get places by search
 placerouter.get(
@@ -435,18 +434,14 @@ placerouter.get("/api/placeByowner/:id", async (req, res) => {
 });
 
 // like place
-placerouter.post("/api/save/:id", async (req, res) => {
+placerouter.post("/api/save/:id/:Userid", async (req, res) => {
   connectDB();
 
   try {
-    const { token } = req.cookies;
-    const { id } = req.params;
+    const { id, Userid } = req.params;
 
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) throw err;
-
-      const followerId = info.Userid;
-
+    if (Userid) {
+      const followerId = Userid;
       try {
         // Find the post to be liked
         const postToLike = await Placemodel.findById(id);
@@ -493,7 +488,7 @@ placerouter.post("/api/save/:id", async (req, res) => {
         console.error(error);
         return res.status(500).send(error);
       }
-    });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -501,50 +496,48 @@ placerouter.post("/api/save/:id", async (req, res) => {
 });
 
 //add reviews
-placerouter.post("/api/reviews/:placeid", async (req, res) => {
+placerouter.post("/api/reviews/:placeid/:Userid", async (req, res) => {
   connectDB();
 
-  const { placeid } = req.params;
-  const { token } = req.cookies;
+  const { placeid, Userid } = req.params;
   const { comment, rating } = req.body;
+
   try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) throw err;
-
-      const Userid = info.Userid;
-
+    if (Userid) {
       const user = await Usermodel.findById(Userid);
 
       if (!user) {
         return res.status(404).json({ error: "User not found." });
       }
 
-      const place = await Placemodel.findById(placeid);
+      if (user) {
+        const place = await Placemodel.findById(placeid);
 
-      if (!place) {
-        return res.status(404).json({ error: "Place not found." });
+        if (!place) {
+          return res.status(404).json({ error: "Place not found." });
+        }
+
+        if (!comment || !rating) {
+          return res
+            .status(400)
+            .json({ error: "Please provide comment, rating." });
+        }
+
+        const newPlaceReview = {
+          comment,
+          rating,
+          userId: Userid,
+          userName: user.fullname,
+          userPhoto: user.profilepic,
+        };
+
+        place.reviews.push(newPlaceReview);
+
+        await place.save();
+
+        return res.status(201).json({ message: "Review added successfully." });
       }
-
-      if (!comment || !rating) {
-        return res
-          .status(400)
-          .json({ error: "Please provide comment, rating, and placeId." });
-      }
-
-      const newPlaceReview = {
-        comment,
-        rating,
-        userId: Userid,
-        userName: user.fullname,
-        userPhoto: user.profilepic,
-      };
-
-      place.reviews.push(newPlaceReview);
-
-      await place.save();
-
-      return res.status(201).json({ message: "Review added successfully." });
-    });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -552,17 +545,13 @@ placerouter.post("/api/reviews/:placeid", async (req, res) => {
 });
 
 //delete reviews
-placerouter.delete("/api/deletereview/:id/:index", async (req, res) => {
+placerouter.delete("/api/deletereview/:id/:index/:Userid", async (req, res) => {
   connectDB();
 
-  const { id, index } = req.params;
-  const { token } = req.cookies;
+  const { id, index, Userid } = req.params;
+
   try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) throw err;
-
-      const Userid = info.Userid;
-
+    if (Userid) {
       const user = await Usermodel.findById(Userid);
 
       if (!user) {
@@ -584,7 +573,7 @@ placerouter.delete("/api/deletereview/:id/:index", async (req, res) => {
       await place.save();
 
       return res.status(200).json("deleted");
-    });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -592,9 +581,9 @@ placerouter.delete("/api/deletereview/:id/:index", async (req, res) => {
 });
 
 //add booking
-placerouter.post("/api/addBooking", async (req, res) => {
+placerouter.post(`/api/addBooking/:Userid`, async (req, res) => {
   connectDB();
-
+  const { Userid } = req.params;
   const {
     id,
     host,
@@ -607,28 +596,30 @@ placerouter.post("/api/addBooking", async (req, res) => {
     halfprice,
     worktrip,
   } = req.body;
-  const { token } = req.cookies;
+
   try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-      if (err) throw err;
-      const Userid = info.Userid;
+    if (id) {
+      const user = await Usermodel.findById(Userid);
+      if (user) {
+        const Userid = user._id;
 
-      const bookingdoc = await Bookingmodel.create({
-        place: id,
-        host,
-        user: Userid,
-        checkin,
-        checkout,
-        guests,
-        Username,
-        Userphone,
-        fullprice,
-        halfprice,
-        worktrip,
-      });
+        const bookingdoc = await Bookingmodel.create({
+          place: id,
+          host,
+          user: Userid,
+          checkin,
+          checkout,
+          guests,
+          Username,
+          Userphone,
+          fullprice,
+          halfprice,
+          worktrip,
+        });
 
-      return res.status(200).json(bookingdoc);
-    });
+        return res.status(200).json(bookingdoc);
+      }
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -653,51 +644,52 @@ placerouter.get("/api/Bookings/:id", async (req, res) => {
 });
 
 //get booking by user
-placerouter.get("/api/Bookings", async (req, res) => {
+placerouter.get("/api/BookingPlaces/:id", async (req, res) => {
   connectDB();
 
+  const { id } = req.params;
+
   try {
-    const { token } = req.cookies;
+    if (id) {
+      const user = await Usermodel.findById(id);
 
-    if (!token) {
-      return res.status(401).json({ error: "Token not found" });
-    }
+      if (user) {
+        const Hostid = user._id;
 
-    if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-        if (err) throw err;
-        const Userid = info.Userid;
-
-        const bookingdoc = await Bookingmodel.find({ user: Userid })
+        const bookeddoc = await Bookingmodel.find({ user: Hostid })
           .populate("user place")
           .sort({ createdAt: -1 });
-        return res.status(200).json(bookingdoc);
-      });
+        res.status(200).json(bookeddoc);
+      } else {
+        res.status(404).json("ID not Found");
+      }
     } else {
-      res.status(404).json("User not Found",token);
+      res.status(404).json("User not Found");
     }
   } catch (error) {
-    console.error("error:" , error);
+    console.error("error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
 //get booking by host
-placerouter.get("/api/Booked", async (req, res) => {
+placerouter.get("/api/Booked/:id", async (req, res) => {
   connectDB();
 
-  const { token } = req.cookies;
+  const { id } = req.params;
+
   try {
-    if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-        if (err) throw err;
-        const Hostid = info.Userid;
+    if (id) {
+      const user = await Usermodel.findById(id);
+
+      if (user) {
+        const Hostid = user._id;
 
         const bookeddoc = await Bookingmodel.find({ host: Hostid })
           .populate("user place")
           .sort({ createdAt: -1 });
         res.status(200).json(bookeddoc);
-      });
+      }
     } else {
       res.status(404).json("User not Found");
     }

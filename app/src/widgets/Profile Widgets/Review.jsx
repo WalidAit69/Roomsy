@@ -5,9 +5,10 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
 import Rating from 'react-rating-stars-component';
 import axios from "axios";
 import "../../components/Profile Components/BookingPage.css";
+import { ToastContainer, toast } from 'react-toastify';
 
-function Review({id}) {
-
+function Review({ placeid }) {
+    const [isLoading, setisLoading] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [Statut, setStatut] = useState(
@@ -26,12 +27,12 @@ function Review({id}) {
         setRating(newRating);
     };
 
+    const Userid = localStorage.getItem("userID");
 
     const handleSubmit = async (e) => {
         const axiosConfig = {
             method: 'post',
-            url: `/reviews/${id}`,
-            withCredentials: true,
+            url: `/reviews/${placeid}/${Userid}`,
             data: {
                 comment: comment,
                 rating: rating,
@@ -40,11 +41,13 @@ function Review({id}) {
 
         if (comment.length >= 20 && rating > 0) {
             try {
+                setisLoading(true);
                 const res = await axios(axiosConfig)
-                console.log(res)
-                window.location.reload();
+                toast.success(res.data.message);
+                setisLoading(false);
             } catch (error) {
                 console.log(error)
+                setisLoading(false);
             }
         }
         if (comment.length < 10) {
@@ -115,6 +118,7 @@ function Review({id}) {
 
     return (
         <div className='Review_container'>
+            <ToastContainer></ToastContainer>
             <h2>Leave a review</h2>
             <textarea
                 value={comment}
@@ -127,7 +131,9 @@ function Review({id}) {
             <p className='error-msg star-msg'>Must have atleast 1 star</p>
 
             <div className='Rating_container'>
-                <button type='submit' className='btn' onClick={handleSubmit}>Submit Review</button>
+                {!isLoading ?
+                    <button type='submit' className='btn' onClick={handleSubmit}>Submit Review</button> :
+                    <button className="btn"><span className='loader'></span></button>}
 
                 <div>
                     <label>Overall rating :</label>

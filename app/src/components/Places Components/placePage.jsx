@@ -79,8 +79,7 @@ function PlacePage() {
     const handleLikeClick = async () => {
         const axiosConfig = {
             method: 'post',
-            url: `/save/${id}`,
-            withCredentials: true,
+            url: `/save/${id}/${currentuserid}`,
         };
         if (!currentuserid) {
             toast.error("Please log in first")

@@ -18,6 +18,7 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import Skeleton from 'react-loading-skeleton';
 
 
+
 function Navbar() {
   const { togglePopup, removePopup, isHomepage, setIsEdit } = useContext(MyContext);
 
@@ -42,9 +43,8 @@ function Navbar() {
   async function getBooked() {
     if (user.id === id) {
       try {
-        const { data } = await axios.get("/Booked", {
-          withCredentials: true
-        })
+        const id = localStorage.getItem("userID");
+        const { data } = await axios.get(`/Booked/${id}`)
         setBooked(data);
         setnotifications(data?.length);
       } catch (error) {
@@ -161,7 +161,7 @@ function Navbar() {
 
   let src = "";
   src = user.profilepic && user.profilepic.includes('https://') ? user.profilepic
-        : "https://roomsy-v3-server.vercel.app/" + user.profilepic;
+    : "https://roomsy-v3-server.vercel.app/" + user.profilepic;
 
   return (
     <header className="header">

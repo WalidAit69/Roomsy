@@ -112,6 +112,7 @@ function Signup_form({ setregistrationtype }) {
       } catch (error) {
         toast.error(error?.response?.data?.msg);
         console.error(error);
+        setisLoading(false);
       }
     }
 
