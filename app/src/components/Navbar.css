@@ -22,6 +22,7 @@
 .nav__left {
   display: flex;
   align-items: center;
+  transition: .3s;
 }
 
 .logo {
@@ -52,6 +53,7 @@
   border-left: 1px solid rgb(189, 187, 187);
   margin-left: 2rem;
   padding-left: 2rem;
+  transition: .3s;
 }
 
 .nav_links a {
@@ -62,6 +64,7 @@
 .nav__right {
   display: flex;
   align-items: center;
+  transition: .3s;
 }
 
 .nav__right .user {
@@ -135,8 +138,8 @@
 
 .responsive {
   left: -20px !important;
-  transition: .4s;
   z-index: 100;
+  transition: .3s;
 }
 
 .icon {
@@ -207,7 +210,7 @@
     left: 30px;
   }
 
-  .nav_links {
+  /* .nav_links {
     position: fixed;
     left: -120%;
     top: 0%;
@@ -221,24 +224,45 @@
     padding: 1rem 2rem;
     margin: 0 1rem;
     padding-top: 10rem;
-  }
+  } */
 
   .nav__right__icon {
     flex-direction: column;
     gap: 3rem;
   }
 
-  .nav__right {
+  .nav_links{
     position: fixed;
     right: 100%;
-    top: 70%;
+    top: 15%;
     z-index: 99 !important;
-    height: 100vh;
+    height: fit-content;
     width: 300px;
     border: none;
     flex-direction: column;
-    margin: 0 1rem;
     gap: 3rem;
+    background-color: white;
+    margin-left: 2.5rem;
+    padding: 1rem 0;
+    border-radius: 10px;
+    transition: .3s;
+  }
+
+  .nav__right {
+    position: fixed;
+    right: 100%;
+    top: 40%;
+    z-index: 99 !important;
+    height: fit-content;
+    width: 300px;
+    border: none;
+    flex-direction: column;
+    gap: 3rem;
+    background-color: white;
+    margin-left: 2.5rem;
+    padding: 1rem 0;
+    border-radius: 10px;
+    transition: .3s;
   }
 
   .nav__right a,
@@ -252,16 +276,22 @@
   }
 }
 
-
-@media (max-height:830px) {
-  .nav_links {
-    height: 60vh;
+@media (max-width: 335px) {
+  .nav_links{
+    width: 200px;
   }
 
   .nav__right {
-    top: 60%;
-    height: 50vh;
-    padding-top: 2rem;
-    background-color: white
+    width: 200px;
+  }
+}
+
+@media (max-height:750px) {
+  .nav_links{
+    top: 20%;
+  }
+
+  .nav__right {
+    top: 50%;
   }
 }

@@ -263,6 +263,14 @@
 
 }
 
+.skeletitle{
+    width: 250px;
+}
+
+.skeletitle2{
+    width: 200px;
+}
+
 @media (max-width:1400px) {
     .container {
         max-width: 70rem;
@@ -287,6 +295,14 @@
 
     .place_card_img {
         width: 230px;
+    }
+
+    .skeletitle{
+        width: 200px;
+    }
+
+    .skeletitle2{
+        width: 150px;
     }
 }
 

@@ -64,7 +64,7 @@ function PlaceCard({ id }) {
             <div className='place_card_info'>
                 <div>
                     {isLoading ? <Skeleton width={'200px'} /> : <h2>{screenWidth < 500 ? truncateTitle : place.title}</h2>}
-                    {isLoading ? <Skeleton width={'250px'} /> : <h3>{screenWidth > 500 && "Entire rental unit in"} {place.city},{place.country}</h3>}
+                    {isLoading ? <Skeleton className='skeletitle' /> : <h3>{screenWidth > 500 && "Entire rental unit in"} {place.city},{place.country}</h3>}
                     {isLoading ? <Skeleton width={'150px'} /> : <p>{place.type} <span> · </span> {place.bedrooms} {place.bedrooms > 1 ? "beds" : "bed"} <span> · </span> {place.bathrooms} {place.bathrooms > 1 ? "baths" : "bath"}</p>}
                 </div>
 
