@@ -19,11 +19,15 @@ app.disable("x-powered-by");
 app.use(morgan("tiny"));
 app.use("/uploads", uploadMiddleware);
 app.use("/server/routes/uploads", uploadbylinkMiddleware);
-app.use(router);
-app.use(placerouter);
-
 
 const port = 3001;
+
+app.get("/", (req, res) => {
+  res.send("Home get Request");
+});
+
+app.use(router);
+app.use(placerouter);
 
 connectDB()
   .then(() => {
@@ -39,7 +43,3 @@ connectDB()
   .catch((error) => {
     console.log("invalid database");
   });
-
-app.get("/", (req, res) => {
-  res.send("Home get Request");
-});
