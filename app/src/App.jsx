@@ -82,7 +82,7 @@ function App() {
       setIsEdit,
       isLoading
     }}>
-        <BrowserRouter basename="/app">
+        <BrowserRouter basename="/api">
           <Navbar></Navbar>
           <main className="Main_container">
             <Routes>
