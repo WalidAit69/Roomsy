@@ -129,13 +129,8 @@ placerouter.delete("/api/delete-photo", async (req, res) => {
   connectDB();
   const { filename } = req.body;
   try {
-    res.json(filename);
     const deleted = await deleteFromS3(filename);
-    if (deleted) {
-      res.status(200).json("Photo deleted");
-    } else {
-      res.status(400).json("Error deleting photo:");
-    }
+    res.status(200).json(deleted);
   } catch (error) {
     console.error("Error deleting photo:", error);
     res.status(500).json({ error: "Unable to delete photo" });
@@ -143,14 +138,13 @@ placerouter.delete("/api/delete-photo", async (req, res) => {
 });
 
 // delete pictures
-placerouter.delete("/api/delete-photo/:id/:filename", async (req, res) => {
+placerouter.delete("/api/delete-photo/:id", async (req, res) => {
   connectDB();
 
   const { id } = req.params;
   const { filename } = req.body;
 
   try {
-
     const deleted = await deleteFromS3(filename);
     if (deleted) {
       res.status(200).json("Photo deleted");

@@ -54,7 +54,9 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
     }
 
     async function DeletePhotoByLinkEdit(link, index) {
-        const response = await axios.delete(`/delete-photo/${id}/${link}`)
+        const response = await axios.delete(`/delete-photo/${id}`, {
+            data: { link: link },
+        })
         console.log(response)
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
