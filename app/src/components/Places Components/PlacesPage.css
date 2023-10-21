@@ -474,29 +474,6 @@
     }
 }
 
-@media (max-width:408px) {
-    .user_place_card{
-        width: 100%;
-    }
-
-    .user_place_card .place_card_image{
-        width: 100%;
-    }
-
-    .user_place_card .place_card_info{
-        max-width: 100%;
-        height: auto;
-    }
-
-    .user_place_card .place_card_info div{
-        width: 100%;
-    }
-
-    .user_place_card .place_card_info h2{
-        width: 100%;
-    }
-}
-
 @media (max-width:350px) {
     .place_card {
         flex-direction: column;
@@ -524,8 +501,6 @@
 
     .place_card_info {
         height: 15%;
-        width: 100%;
-        background-color: red;
     }
 
     .ellipse {
