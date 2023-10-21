@@ -15,7 +15,6 @@ import mime from "mime-types";
 import dotenv from "dotenv";
 
 
-
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
