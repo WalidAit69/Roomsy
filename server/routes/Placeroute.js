@@ -9,17 +9,19 @@ import Placemodel from "../model/Placemodel.js";
 import jwt from "jsonwebtoken";
 import Usermodel from "../model/Usermodel.js";
 import Bookingmodel from "../model/Bookingmodel.js";
-import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
 import dotenv from "dotenv";
-
 
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
 dotenv.config();
-
 
 // upload pictures to AWS
 async function uploadToS3(newpath, originalFilename, mimetype) {
@@ -65,7 +67,7 @@ async function deleteFromS3(filename) {
         Bucket: process.env.BUCKETNAME,
         Key: filename,
       })
-    )
+    );
     console.log(`Successfully deleted ${filename}`);
     return true;
   } catch (error) {
@@ -73,7 +75,6 @@ async function deleteFromS3(filename) {
     return false;
   }
 }
-
 
 // upload pictures with link to aws
 placerouter.post("/api/upload-by-link", async (req, res) => {
@@ -99,7 +100,6 @@ placerouter.post("/api/upload-by-link", async (req, res) => {
     res.status(500).json({ error: "Unable to Add photo" });
   }
 });
-
 
 // upload pictures with file to aws
 placerouter.post(
@@ -128,11 +128,14 @@ placerouter.post(
 placerouter.delete("/api/delete-photo", async (req, res) => {
   connectDB();
   const { filename } = req.body;
-
   try {
-
-    res.json(filename)
-
+    res.json(filename);
+    const deleted = await deleteFromS3(filename);
+    if (deleted) {
+      res.status(200).json("Photo deleted");
+    } else {
+      res.status(400).json("Error deleting photo:");
+    }
   } catch (error) {
     console.error("Error deleting photo:", error);
     res.status(500).json({ error: "Unable to delete photo" });
@@ -143,14 +146,17 @@ placerouter.delete("/api/delete-photo", async (req, res) => {
 placerouter.delete("/api/delete-photo/:id/:filename", async (req, res) => {
   connectDB();
 
-  const { id, filename } = req.params;
-
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const filePath = join(__dirname, "uploads", filename).replace(/\\/g, "/");
+  const { id } = req.params;
+  const { filename } = req.body;
 
   try {
-    await unlink(filePath);
+
+    const deleted = await deleteFromS3(filename);
+    if (deleted) {
+      res.status(200).json("Photo deleted");
+    } else {
+      res.status(400).json("Error deleting photo:");
+    }
 
     const place = await Placemodel.findById(id);
     if (!place) {

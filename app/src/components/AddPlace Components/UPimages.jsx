@@ -8,7 +8,7 @@ import Image from './Image';
 function UPimages({ images, setImages, photoLink, setphotoLink, active, setActive, isEdit, place, id }) {
 
     const [DeletePhoto, setDeletePhoto] = useState('');
-    const [isLoading, setisLoading] = useState(true);
+    const [isLoading, setisLoading] = useState(false);
 
     const nextStep = () => {
         if (images.length < 4) {
