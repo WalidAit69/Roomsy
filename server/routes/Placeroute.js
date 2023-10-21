@@ -14,6 +14,22 @@ import connectDB from "../database/conn.js";
 import mime from "mime-types";
 import dotenv from "dotenv";
 
+const port = 3001;
+
+connectDB()
+  .then(() => {
+    try {
+      app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+      });
+    } catch (error) {
+      console.log("cannot connect to the server");
+    }
+  })
+  .catch((error) => {
+    console.log("invalid database");
+  });
+
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 

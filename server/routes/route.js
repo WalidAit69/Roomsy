@@ -9,6 +9,22 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import mime from "mime-types";
 import dotenv from "dotenv";
 
+const port = 3001;
+
+connectDB()
+  .then(() => {
+    try {
+      app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+      });
+    } catch (error) {
+      console.log("cannot connect to the server");
+    }
+  })
+  .catch((error) => {
+    console.log("invalid database");
+  });
+
 const router = Router();
 dotenv.config();
 
@@ -100,7 +116,7 @@ router.put(
     const newPath = path.replace(/\\/g, "/");
     const url = await uploadToS3(newPath, originalname, mimetype);
 
-    const {Userid} = req.params;
+    const { Userid } = req.params;
     if (Userid) {
       const { job, bio, lang } = req.body;
       const userDoc = await UserModel.findById(Userid);
@@ -123,7 +139,7 @@ router.put(
 router.put("/api/UpdateUser/:Userid", async (req, res) => {
   connectDB();
 
-  const {Userid} = req.params;
+  const { Userid } = req.params;
   if (Userid) {
     try {
       const { job, bio, lang } = req.body;
