@@ -28,7 +28,7 @@ function ProfilePage() {
   const [showEdit, setshowEdit] = useState(false);
   const [opened, setOpened] = useState(false);
   const [isLoading, setisLoading] = useState(true);
-  const [isimgLoading, setisimgLoading] = useState(true);
+  const [isimgLoading, setisimgLoading] = useState(false);
   const [Profile, setProfile] = useState(false);
 
   const [updatetype, setupdatetype] = useState();

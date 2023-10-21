@@ -9,7 +9,7 @@ import Placemodel from "../model/Placemodel.js";
 import jwt from "jsonwebtoken";
 import Usermodel from "../model/Usermodel.js";
 import Bookingmodel from "../model/Bookingmodel.js";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
 import dotenv from "dotenv";
@@ -48,6 +48,33 @@ async function uploadToS3(newpath, originalFilename, mimetype) {
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
+// delete pictures from AWS
+async function deleteFromS3(filename) {
+  connectDB();
+  const client = new S3Client({
+    region: "eu-west-3",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    },
+  });
+
+  try {
+    const data = await client.send(
+      new DeleteObjectCommand({
+        Bucket: process.env.BUCKETNAME,
+        Key: filename,
+      })
+    )
+    console.log(`Successfully deleted ${filename}`);
+    return true;
+  } catch (error) {
+    console.error(`Error deleting ${filename}: ${error.message}`);
+    return false;
+  }
+}
+
+
 // upload pictures with link to aws
 placerouter.post("/api/upload-by-link", async (req, res) => {
   connectDB();
@@ -73,27 +100,6 @@ placerouter.post("/api/upload-by-link", async (req, res) => {
   }
 });
 
-// upload pictures with file
-// placerouter.post(
-//   "/upload",
-//   photosMiddelware.array("files", 30),
-//   async (req, res) => {
-//     try {
-//       const uploadedFiles = [];
-//       for (let i = 0; i < req.files.length; i++) {
-//         const { mimetype, destination, filename, path } = req.files[i];
-//         const parts = mimetype.split("/");
-//         const newPath = destination + "/" + filename + "." + parts[1];
-//         fs.renameSync(path, newPath);
-//         uploadedFiles.push(filename + "." + parts[1]);
-//       }
-//       res.json(uploadedFiles);
-//     } catch (error) {
-//       console.error("Error Adding photo:", error);
-//       res.status(500).json({ error: "Unable to Add photo" });
-//     }
-//   }
-// );
 
 // upload pictures with file to aws
 placerouter.post(
@@ -123,13 +129,10 @@ placerouter.delete("/api/delete-photo/:filename", async (req, res) => {
   connectDB();
   const { filename } = req.params;
 
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const filePath = join(__dirname, "uploads", filename).replace(/\\/g, "/");
-
   try {
-    await unlink(filePath);
-    res.json({ message: "Photo deleted successfully" });
+    
+    res.json(filename)
+
   } catch (error) {
     console.error("Error deleting photo:", error);
     res.status(500).json({ error: "Unable to delete photo" });
