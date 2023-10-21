@@ -9,6 +9,9 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import mime from "mime-types";
 import dotenv from "dotenv";
 
+const router = Router();
+dotenv.config();
+
 const port = 3001;
 
 connectDB()
@@ -24,10 +27,7 @@ connectDB()
   .catch((error) => {
     console.log("invalid database");
   });
-
-const router = Router();
-dotenv.config();
-
+  
 const uploadMiddleware = multer({ dest: "/tmp" });
 
 // upload pictures to AWS

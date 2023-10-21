@@ -20,6 +20,22 @@ const photosMiddelware = multer({ dest: "/tmp" });
 
 dotenv.config();
 
+const port = 3001;
+
+connectDB()
+  .then(() => {
+    try {
+      app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+      });
+    } catch (error) {
+      console.log("cannot connect to the server");
+    }
+  })
+  .catch((error) => {
+    console.log("invalid database");
+  });
+
 // upload pictures to AWS
 async function uploadToS3(newpath, originalFilename, mimetype) {
   connectDB();
