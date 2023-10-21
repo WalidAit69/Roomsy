@@ -28,6 +28,7 @@ function ProfilePage() {
   const [showEdit, setshowEdit] = useState(false);
   const [opened, setOpened] = useState(false);
   const [isLoading, setisLoading] = useState(true);
+  const [isimgLoading, setisimgLoading] = useState(true);
   const [Profile, setProfile] = useState(false);
 
   const [updatetype, setupdatetype] = useState();
@@ -128,21 +129,24 @@ function ProfilePage() {
 
     if (files[0]) {
       try {
-        setisLoading(true);
+        setisimgLoading(true);
         const { data } = await axios(axiowithimgConfig)
         console.log(data)
-        setisLoading(false);
+        setisimgLoading(false);
       } catch (error) {
-        setisLoading(false);
+        setisimgLoading(false);
         console.error(error)
       }
     }
 
     if (!files[0]) {
       try {
+        setisLoading(true);
         const { data } = await axios(axioConfig)
         console.log(data)
+        setisLoading(false);
       } catch (error) {
+        setisLoading(false);
         console.error(error)
       }
     }
@@ -190,7 +194,7 @@ function ProfilePage() {
                     }
                   }} />
                   {
-                    isLoading ? (
+                    isimgLoading ? (
                       <Skeleton className="user_card_img_image" />
                     ) : !user.profilepic ? (
                       <Skeleton className="user_card_img_image" />
