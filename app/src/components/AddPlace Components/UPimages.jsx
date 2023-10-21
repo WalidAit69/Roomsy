@@ -27,7 +27,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
             return null;
         } else {
             try {
-                const { data: filename } = await axios.post("http://localhost:3001/upload-by-link", { link: photoLink })
+                const { data: filename } = await axios.post("/upload-by-link", { link: photoLink })
                 setImages(prev => {
                     return [...prev, filename];
                 })
@@ -40,7 +40,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
 
 
     async function DeletePhotoByLink(link, index) {
-        const response = await axios.delete(`http://localhost:3001/delete-photo/${link}`)
+        const response = await axios.delete(`/delete-photo/${link}`)
         console.log(response)
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
@@ -48,7 +48,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
     }
 
     async function DeletePhotoByLinkEdit(link, index) {
-        const response = await axios.delete(`http://localhost:3001/delete-photo/${id}/${link}`)
+        const response = await axios.delete(`/delete-photo/${id}/${link}`)
         console.log(response)
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
@@ -61,7 +61,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
         for (let i = 0; i < files.length; i++) {
             data.append('files', files[i]);
         }
-        const { data: filenames } = await axios.post("http://localhost:3001/upload", data, {
+        const { data: filenames } = await axios.post("/upload", data, {
             headers: { "Content-type": "multipart/form-data" }
         });
         setImages(prev => {
