@@ -454,27 +454,6 @@
 }
 
 @media (max-width:400px) {
-    .place_card_info div {
-        width: 100px;
-    }
-
-    .place_card {
-        height: 170px;
-        width: 180px;
-    }
-
-    .place_card_image {
-        height: 170px;
-        width: 180px;
-    }
-
-    .place_card_img {
-        height: 170px;
-        width: 180px;
-    }
-}
-
-@media (max-width:350px) {
     .place_card {
         flex-direction: column;
         gap: 0rem;
@@ -508,5 +487,29 @@
         height: 40px;
         left: 0%;
         top: 15%;
+    }
+}
+
+/* usercard */
+@media (max-width:408px) {
+    .user_place_card{
+        width: 100%;
+    }
+
+    .user_place_card .place_card_image{
+        width: 100%;
+    }
+
+    .user_place_card .place_card_info{
+        max-width: 100%;
+        height: auto;
+    }
+
+    .user_place_card .place_card_info div{
+        width: 100%;
+    }
+
+    .user_place_card .place_card_info h2{
+        width: 100%;
     }
 }
