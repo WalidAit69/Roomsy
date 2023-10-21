@@ -7,8 +7,11 @@ import fs from "fs";
 import connectDB from "../database/conn.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import mime from "mime-types";
+import dotenv from "dotenv";
+
 
 const router = Router();
+dotenv.config();
 
 const uploadMiddleware = multer({ dest: "/tmp" });
 
@@ -176,13 +179,7 @@ router.post("/api/login", async (req, res) => {
           if (err) throw err;
           res
             .status(200)
-            .cookie("token", token, {
-              httpOnly: true,
-              secure: true,
-              maxAge: 1000 * 60 * 60 * 48,
-              sameSite: "none",
-              domain: 'https://roomsy-v5.vercel.app/'
-            })
+            .cookie("token", token)
             .json({ id: user._id, accesstoken: token });
         }
       );

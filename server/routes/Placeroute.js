@@ -12,12 +12,13 @@ import Bookingmodel from "../model/Bookingmodel.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import connectDB from "../database/conn.js";
 import mime from "mime-types";
+import dotenv from "dotenv";
 
 
 const placerouter = Router();
 const photosMiddelware = multer({ dest: "/tmp" });
 
-const port = 3001;
+dotenv.config();
 
 
 // upload pictures to AWS

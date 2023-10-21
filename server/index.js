@@ -12,27 +12,29 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "https://roomsy-v5.vercel.app/"}));
-// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+// app.use(cors({ credentials: true, origin: "https://roomsy-v5.vercel.app/"}));
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.disable("x-powered-by");
 app.use(morgan("tiny"));
 app.use("/uploads", uploadMiddleware);
 app.use("/server/routes/uploads", uploadbylinkMiddleware);
-app.set("trust proxy", 1);
 
 const port = 3001;
 
-connectDB().then(() =>{
-  try {
+connectDB()
+  .then(() => {
+    try {
       app.listen(port, () => {
-          console.log(`Server running on port ${port}`);
+        console.log(`Server running on port ${port}`);
       });
-  } catch (error) {
+
+    } catch (error) {
       console.log("cannot connect to the server");
-  }
-}).catch(error =>{
-  console.log("invalid database");
-})
+    }
+  })
+  .catch((error) => {
+    console.log("invalid database");
+  });
 
 app.get("/", (req, res) => {
   res.send("Home get Request");
@@ -42,7 +44,5 @@ app.get("/test", (req, res) => {
   res.send("Home get Request");
 });
 
-
 app.use(router);
 app.use(placerouter);
-
