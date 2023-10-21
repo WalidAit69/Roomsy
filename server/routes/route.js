@@ -12,22 +12,7 @@ import dotenv from "dotenv";
 const router = Router();
 dotenv.config();
 
-const port = 3001;
 
-connectDB()
-  .then(() => {
-    try {
-      app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-      });
-    } catch (error) {
-      console.log("cannot connect to the server");
-    }
-  })
-  .catch((error) => {
-    console.log("invalid database");
-  });
-  
 const uploadMiddleware = multer({ dest: "/tmp" });
 
 // upload pictures to AWS
