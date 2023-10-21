@@ -127,11 +127,24 @@ function ProfilePage() {
     }
 
     if (files[0]) {
-      const { data } = await axios(axiowithimgConfig)
+      try {
+        setisLoading(true);
+        const { data } = await axios(axiowithimgConfig)
+        console.log(data)
+        setisLoading(false);
+      } catch (error) {
+        setisLoading(false);
+        console.error(error)
+      }
     }
 
     if (!files[0]) {
-      const { data } = await axios(axioConfig)
+      try {
+        const { data } = await axios(axioConfig)
+        console.log(data)
+      } catch (error) {
+        console.error(error)
+      }
     }
 
   }
@@ -145,14 +158,10 @@ function ProfilePage() {
     }
   }
 
-  function handlePhotoEdit() {
-    constfileInput = document.querySelector('profilepic');
-    fileInput.click();
-  };
 
   let src = "";
   src = user.profilepic && user.profilepic.includes('https://') ? user.profilepic
-        : "https://roomsy-v3-server.vercel.app/" + user.profilepic;
+    : "https://roomsy-v3-server.vercel.app/" + user.profilepic;
 
 
   return (
@@ -180,7 +189,16 @@ function ProfilePage() {
                       setfiles(files);
                     }
                   }} />
-                  {!user.profilepic ? <Skeleton className="user_card_img_image" /> : <img className="user_card_img_image" src={image ? image : src} alt="" />}
+                  {
+                    isLoading ? (
+                      <Skeleton className="user_card_img_image" />
+                    ) : !user.profilepic ? (
+                      <Skeleton className="user_card_img_image" />
+                    ) : image ? (
+                      <img className="user_card_img_image" src={image} alt="" />
+                    ) : src ? (
+                      <img className="user_card_img_image" src={src} alt="" />
+                    ) : null}
                   {showEdit && <FontAwesomeIcon icon={faPen} className="Profile_img_edit" onClick={() => { document.querySelector('.profilepic').click() }}></FontAwesomeIcon>}
                 </div>
                 {!user.fullname ? <Skeleton /> : <h1>{user.fullname}</h1>}
