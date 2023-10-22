@@ -9,7 +9,6 @@ import Skeleton from 'react-loading-skeleton';
 
 function UPimages({ images, setImages, photoLink, setphotoLink, active, setActive, isEdit, place, id }) {
 
-    const [DeletePhoto, setDeletePhoto] = useState('');
     const [isLoading, setisLoading] = useState(false);
 
     const nextStep = () => {
@@ -72,13 +71,12 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
         setisLoading(true);
 
         const files = e.target.files;
+        setnumImages(files.length);
         const data = new FormData();
 
         for (let i = 0; i < files.length; i++) {
             data.append('files', files[i]);
         }
-
-        setnumImages(data);
 
         const { data: filenames } = await axios.post("/upload", data, {
             headers: { "Content-type": "multipart/form-data" }
@@ -90,7 +88,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
         setisLoading(false);
     };
 
-    console.log(numImages);
+    
 
     useEffect(() => {
         if (isEdit) {
