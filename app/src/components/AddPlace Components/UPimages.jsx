@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import "../BecomeHost Components/AddPlace.css";
-import { Button, Group, Skeleton } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import axios from 'axios';
 import Image from './Image';
+import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
 
 
 function UPimages({ images, setImages, photoLink, setphotoLink, active, setActive, isEdit, place, id }) {
@@ -27,6 +29,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
         if (!photoLink) {
             return null;
         } else {
+            setnumImages(1);
             setisLoading(true);
             try {
                 const { data: filename } = await axios.post("/upload-by-link", { link: photoLink })
@@ -63,6 +66,8 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
         setImages(updatedImages);
     }
 
+    const [numImages, setnumImages] = useState();
+
     async function Addphoto(e) {
         setisLoading(true);
 
@@ -73,6 +78,8 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
             data.append('files', files[i]);
         }
 
+        setnumImages(data);
+
         const { data: filenames } = await axios.post("/upload", data, {
             headers: { "Content-type": "multipart/form-data" }
         });
@@ -82,6 +89,8 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
         })
         setisLoading(false);
     };
+
+    console.log(numImages);
 
     useEffect(() => {
         if (isEdit) {
@@ -133,7 +142,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
                         </div>
                     ))}
 
-                    {isLoading && <Skeleton className='image_showcase' />}
+                    {isLoading && <Skeleton className='image_showcase' count={numImages} />}
 
                 </div>
 

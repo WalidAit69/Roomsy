@@ -38,7 +38,7 @@ function BookingPage() {
                 {!isLoading ? (bookings?.length > 0 ? <h1>Your Bookings</h1> : <h1>No Bookings</h1>) : (<Skeleton width={"200px"} />)}
                 {bookings && !isLoading ? bookings.map((booking) => {
                     return <BookingCard key={booking._id} {...booking}></BookingCard>
-                }) : <Skeleton width={'1000px'} height={'200px'} />}
+                }) : <Skeleton width={'1000px'} height={'200px'} count={3} />}
 
                 {bookings?.length == 0 && <div className='space'></div>}
             </div>}

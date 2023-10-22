@@ -13,11 +13,11 @@ import AddPlace from '../BecomeHost Components/AddPlace';
 import { useDisclosure } from '@mantine/hooks';
 import { Notification } from '@mantine/core';
 import Reviews from '../../widgets/Place Widgets/Reviews';
-import 'react-loading-skeleton/dist/skeleton.css'
 import CheckAvailability from '../../widgets/Place Widgets/CheckAvailability';
 import BookingCard from '../../widgets/Place Widgets/BookingCard';
 import ImageSlider from '../../widgets/Place Widgets/ImageSlider';
 import "../../widgets/Skeleton.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 import Skeleton from 'react-loading-skeleton';
 import { ToastContainer, toast } from 'react-toastify';
 import Image from '../AddPlace Components/Image';

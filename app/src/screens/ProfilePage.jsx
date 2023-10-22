@@ -245,8 +245,8 @@ function ProfilePage() {
             <div className="profile_page_right_info">
 
               <div className="profile_page_right_info_edit">
-                {Profile ? <h1>About You</h1> : <h1>About {user.fullname}</h1>}
-                {Profile && <button className="black_btn" onClick={handleEdit}>{showEdit ? "Save" : "Edit"}</button>}
+                {user && (Profile ? <h1>About You</h1> : <h1>About {user.fullname}</h1>)}
+                {!user ? <Skeleton width={'50px'} /> : (Profile && <button className="black_btn" onClick={handleEdit}>{showEdit ? "Save" : "Edit"}</button>)}
               </div>
 
               <div className="profile_page_right_infos">

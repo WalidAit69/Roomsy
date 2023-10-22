@@ -33,7 +33,7 @@ function BookedPage() {
                 {!isLoading ? (Booked?.length > 0 ? <h1>Your Booked Places</h1> : <h1>No Booked Places</h1>) : (<Skeleton width={"200px"} />)}
                 {Booked && !isLoading ? Booked.map((booking) => {
                     return <BookedCard key={booking._id} {...booking}></BookedCard>
-                }) : <Skeleton width={'1000px'} height={'200px'} />}
+                }) : <Skeleton width={'1000px'} height={'200px'} count={3}/>}
             </div>}
         </section>
     )

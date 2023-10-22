@@ -199,6 +199,8 @@ placerouter.post("/api/place/:Userid", async (req, res) => {
     owner,
   } = req.body;
 
+  const {Userid} = req.params;
+
   try {
     if (Userid) {
       const user = await Usermodel.findById(Userid);
