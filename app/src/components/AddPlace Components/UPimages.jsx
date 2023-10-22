@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import "../BecomeHost Components/AddPlace.css";
-import { Button, Group } from '@mantine/core';
+import { Button, Group, Skeleton } from '@mantine/core';
 import axios from 'axios';
 import Image from './Image';
-import 'react-loading-skeleton/dist/skeleton.css'
-import Skeleton from 'react-loading-skeleton';
+
 
 
 function UPimages({ images, setImages, photoLink, setphotoLink, active, setActive, isEdit, place, id }) {
@@ -140,7 +139,7 @@ function UPimages({ images, setImages, photoLink, setphotoLink, active, setActiv
                         </div>
                     ))}
 
-                    {isLoading && <Skeleton className='image_showcase' count={numImages} />}
+                    {isLoading && <Skeleton className='image_showcase'/>}
 
                 </div>
 
