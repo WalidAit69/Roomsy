@@ -170,7 +170,7 @@ function ProfilePage() {
 
   return (
     <>
-      {id &&
+      {user &&
         <section className="container profile_page dim_overlay">
           <EditModal
             opened={opened}
