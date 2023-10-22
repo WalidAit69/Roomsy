@@ -127,11 +127,11 @@ function BookedPlace() {
 
     let src = "";
     src = customer?.profilepic && customer?.profilepic.includes('https://') ? customer?.profilepic
-          : "https://roomsy-v3-server.vercel.app/" + customer?.profilepic;
+        : "https://roomsy-v3-server.vercel.app/" + customer?.profilepic;
 
     return (
         <>
-            {CurrentUser && <div>
+            {CurrentUser ? <div>
                 {!photoGrid ? <section section className='container_place container_book_place dim_overlay '>
                     <div className="Place_info_imgs">
                         {screenWidth > 550 ? <>
@@ -191,7 +191,7 @@ function BookedPlace() {
                                         <Image src={img} alt="" key={index} onClick={handlephotoGrid} />
                                     ))}
                                 </div> : <div className='middle-photos'>
-                                    <Skeleton className='middle-skele'/>
+                                    <Skeleton className='middle-skele' />
                                     <Skeleton className='middle-skele' />
                                 </div>}
 
@@ -257,6 +257,8 @@ function BookedPlace() {
                         </div>
                     </div>
                 </section> : <PhotoGrid images={images} handlephotoGrid={handlephotoGrid} handleLikeClick={handleLikeClick} isLiked={isLiked}></PhotoGrid>}
+            </div> : <div className='space container'>
+                <h1>User not Found</h1>
             </div>}
         </>
     )

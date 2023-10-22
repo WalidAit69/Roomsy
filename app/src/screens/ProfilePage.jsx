@@ -298,7 +298,7 @@ function ProfilePage() {
           </div>
 
         </section>
-        : <div className='space'>
+        : <div className='space container'>
           <h1>User not Found</h1>
         </div>
       }
