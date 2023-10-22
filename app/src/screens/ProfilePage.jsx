@@ -170,7 +170,7 @@ function ProfilePage() {
 
   return (
     <>
-      {user &&
+      {user ?
         <section className="container profile_page dim_overlay">
           <EditModal
             opened={opened}
@@ -298,6 +298,9 @@ function ProfilePage() {
           </div>
 
         </section>
+        : <div className='space'>
+          <h1>User not Found</h1>
+        </div>
       }
 
       {showPopup && <RegisterWidget></RegisterWidget>}
