@@ -172,7 +172,7 @@ router.post("/api/login", async (req, res) => {
           Superhost: user.Superhost,
         },
         process.env.JWT_SECRET,
-        { expiresIn: 60 * 60 },
+        { expiresIn: 24 * 60 * 60 },
         (err, token) => {
           if (err) throw err;
           res
