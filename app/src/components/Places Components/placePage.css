@@ -281,11 +281,11 @@ a {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
     border-radius: 10px;
     width: 76%;
-    height: 38%;
+    height: 300px;
 }
 
 .book_cardheight {
-    height: 53%;
+    height: 400px;
 }
 
 .book_card_mobile {
@@ -729,7 +729,7 @@ h2 {
     }
 
     .book_cardheight {
-        height: 62%;
+        height: 480px;
     }
 
     .price_rating div h2 {
