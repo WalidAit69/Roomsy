@@ -14,7 +14,7 @@ function Explore_widget({ name1, name2, image1, image2, info1, info2 }) {
     <>
       {!isLoading ? <div className="explore__grid">
         <Link to={'/places/' + name1} className="explore__card">
-          <img src={image1} alt="" />
+          <img src={image1} alt="" loading="lazy"/>
           <div>
             <h4>{name1}</h4>
             <p>{info1}</p>
@@ -22,7 +22,7 @@ function Explore_widget({ name1, name2, image1, image2, info1, info2 }) {
         </Link>
 
         <Link to={'/places/' + name2} className="explore__card">
-          <img src={image2} alt="" />
+          <img src={image2} alt="" loading="lazy"/>
           <div>
             <h4>{name2}</h4>
             <p>{info2}</p>

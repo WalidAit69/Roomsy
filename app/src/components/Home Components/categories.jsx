@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
 import "./categories.css";
-import img1 from "../../assets/categories/outdoor.jpg";
-import img2 from "../../assets/categories/unique.jpg";
-import img3 from "../../assets/categories/entire-home.jpg";
-import img4 from "../../assets/categories/luxe.jpg";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../App";
 import Skeleton from 'react-loading-skeleton'
@@ -20,7 +16,7 @@ function Categories() {
         settype("Outdoor gateways")
         setselectedcategoryindex(5)
       }}>
-        <img src={img1} alt="" />
+        <img src={"https://ucarecdn.com/7b89b44f-6871-4311-8b9b-cabc41b590b0/-/preview/1000x1000/-/quality/smart/-/format/auto/"} alt="" />
         <div className="category__info">
           <h3>Outdoor gateways</h3>
           <p>1 stays</p>
@@ -33,7 +29,7 @@ function Categories() {
           settype("Unique stays")
           setselectedcategoryindex(4)
         }}>
-          <img src={img2} alt="" />
+          <img src={"https://ucarecdn.com/87efcc2a-c056-4178-bdb9-059e1a52c84b/-/preview/1000x1000/-/quality/smart/-/format/auto/"} alt="" />
           <div className="category__info">
             <h3>Unique stays</h3>
             <p>3 stays</p>
@@ -44,7 +40,7 @@ function Categories() {
           settype("Entire home")
           setselectedcategoryindex(1)
         }}>
-          <img src={img3} alt="" />
+          <img src={"https://ucarecdn.com/1a99bd7e-80f3-4538-be3f-d066d475bc56/-/preview/1000x1000/-/quality/smart/-/format/auto/"} alt="" />
           <div className="category__info">
             <h3>Entire home</h3>
             <p>2 stays</p>
@@ -57,7 +53,7 @@ function Categories() {
         settype("Luxe")
         setselectedcategoryindex(6)
       }}>
-        <img src={img4} alt="" />
+        <img src={"https://ucarecdn.com/a6113cab-7665-4260-be71-149f5bbbf7b5/-/preview/1000x1000/-/quality/smart/-/format/auto/"} alt="" />
         <div className="category__info">
           <h3>Luxury Stays</h3>
           <p>1 stays</p>

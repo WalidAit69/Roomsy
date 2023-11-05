@@ -30,7 +30,7 @@ function Image_slider({ images }) {
     <>
       {!isLoading ? <div className="main dim_overlay">
 
-        <img src={images[currentImageIndex]} alt="" />
+        <img src={images[currentImageIndex]} alt=""/>
 
         <div className="main_info">
           <h1>The Greatest Outdoors</h1>
