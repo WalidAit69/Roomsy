@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faBed, faPlaceOfWorship, faGem, faBellConcierge, faCampground } from '@fortawesome/free-solid-svg-icons'
 import { MyContext } from '../../App';
 import RegisterWidget from '../../widgets/Home widgets/RegisterWidget';
-import interior from "../../assets/fur.jpg"
 import PlaceCardSkeleton from '../../widgets/Place Widgets/PlaceCardSkeleton';
 import PaginationButtons from '../../widgets/Place Widgets/Pagination';
 
@@ -99,12 +98,11 @@ function PlacesPage() {
                         <>
                             {currentItems?.length > 0 && currentItems.map((place, index) => (
                                 <React.Fragment key={place._id}>
-                                    {/* PlaceCard */}
                                     <PlaceCard id={place._id} />
                                     {index === 3 && (
                                         // Separator
                                         <div className="separator">
-                                            <img src={interior} className='separator_img' alt="" />
+                                            <img src={"https://ucarecdn.com/a0dd1e21-6a10-4d18-aacd-998990d67c49/-/preview/1000x1000/-/quality/smart/-/format/auto/"} loading='lazy' className='separator_img' alt="" />
                                             <div className='separator_info'>
                                                 <div className="ellipse"></div>
                                                 <div>

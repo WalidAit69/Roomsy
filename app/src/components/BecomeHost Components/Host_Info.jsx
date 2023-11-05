@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import Info_Widget from "../../widgets/BecomeHost Widgets/Info_Widget";
 import "./Host_Info.css";
-import img from "../../assets/become_host/main.jpg";
-import banner from "../../assets/become_host/banner.jpg";
 import InfoCarousel from "../../widgets/BecomeHost Widgets/Info_carousel";
 import SupportCarousel from "../../widgets/BecomeHost Widgets/Support_carousel";
 import Imagecarousel from "../../widgets/BecomeHost Widgets/Image_carousel";
@@ -76,7 +74,7 @@ function Host_Info() {
 
       <section className="Host_Details">
         <div className="Host_Info_img">
-          <img src={img} alt="img" />
+          <img src={"https://ucarecdn.com/01df7f4f-165f-49b4-937f-b3c6c792af22/-/preview/1000x1000/-/quality/smart/-/format/auto/"} alt="img" loading="lazy"/>
           <div className="layer"></div>
           <div className="Host_Details_info">
             <InfoCarousel items={items}></InfoCarousel>
@@ -97,7 +95,7 @@ function Host_Info() {
       <section className="Host_Banner">
         <AddPlace opened={modelOpen} setOpened={setmodelOpen}></AddPlace>
 
-        <img src={banner} alt="" />
+        <img src={"https://ucarecdn.com/2ac32437-10d3-44d0-9226-c17e754a0260/-/preview/1000x1000/-/quality/smart/-/format/auto/"} alt="" loading="lazy"/>
         <div className="Host_Banner_info">
           <h1>Start your <br /> hosting journey</h1>
           <p>Let's get your listing set up, together.</p>
