@@ -12,7 +12,6 @@ import dotenv from "dotenv";
 const router = Router();
 dotenv.config();
 
-
 const uploadMiddleware = multer({ dest: "/tmp" });
 
 // upload pictures to AWS
@@ -50,11 +49,15 @@ router.post(
     connectDB();
 
     try {
-      const { originalname, path, mimetype } = req.file;
-      const newPath = path.replace(/\\/g, "/");
-      const url = await uploadToS3(newPath, originalname, mimetype);
+      let url;
+      if (req?.file) {
+        const { originalname, path, mimetype } = req?.file;
+        const newPath = path?.replace(/\\/g, "/");
+        url = await uploadToS3(newPath, originalname, mimetype);
+      }
 
-      const { fullname, email, password, phone, bio, location , image} = req.body;
+      const { fullname, email, password, phone, bio, location, image } =
+        req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
       if (user || userPhone) {
@@ -151,13 +154,13 @@ router.put("/api/UpdateUser/:Userid", async (req, res) => {
 router.post("/api/login", async (req, res) => {
   connectDB();
   try {
-    const { email, password , phone} = req.body;
+    const { email, password, phone } = req.body;
     const user = await UserModel.findOne({ email });
     const userPhone = await UserModel.findOne({ phone });
 
     if (!user && !userPhone) {
       return res.status(400).json({ msg: "User not found" });
-    } else if(user){
+    } else if (user) {
       if (!(await bcrypt.compare(password, user.password))) {
         return res.status(400).json({ msg: "Password incorrect" });
       }
@@ -184,7 +187,7 @@ router.post("/api/login", async (req, res) => {
             .json({ id: user._id, accesstoken: token });
         }
       );
-    }else if(userPhone){
+    } else if (userPhone) {
       if (!(await bcrypt.compare(password, userPhone.password))) {
         return res.status(400).json({ msg: "Password incorrect" });
       }
