@@ -140,57 +140,60 @@ router.post(
   async (req, res) => {
     connectDB();
     try {
-      let url;
+      const file = req.file;
+      console.log('Received file:', file);
+    
+      // let url;
 
-      try {
-        const { uri, mimeType } = req?.file;
-        url = await uploadMobileToS3(uri, mimeType);
-        console.log(uri)
-        console.log(mimeType)
-        console.log(req.file)
-      } catch (error) {
-        res.status(500).json("Error Uploading photo")
-      }
+      // try {
+      //   const { uri, mimeType } = req?.file;
+      //   url = await uploadMobileToS3(uri, mimeType);
+      //   console.log(uri)
+      //   console.log(mimeType)
+      //   console.log(req.file)
+      // } catch (error) {
+      //   res.status(500).json("Error Uploading photo")
+      // }
 
 
-      const {
-        fullname,
-        email,
-        password,
-        phone,
-        bio,
-        location,
-      } = req.body;
-      const user = await UserModel.findOne({ email });
-      const userPhone = await UserModel.findOne({ phone });
-      if (user || userPhone) {
-        return res.status(400).json({ msg: "User already exists" });
-      } else {
-        try {
-          const hashedPassword = await bcrypt.hash(password, 10);
-          const newUser = new UserModel({
-            fullname,
-            email,
-            password: hashedPassword,
-            phone,
-            bio,
-            location,
-            profilepic: url || "",
-            job: "",
-            lang: "",
-            host: false,
-            Superhost: false,
-          });
+      // const {
+      //   fullname,
+      //   email,
+      //   password,
+      //   phone,
+      //   bio,
+      //   location,
+      // } = req.body;
+      // const user = await UserModel.findOne({ email });
+      // const userPhone = await UserModel.findOne({ phone });
+      // if (user || userPhone) {
+      //   return res.status(400).json({ msg: "User already exists" });
+      // } else {
+      //   try {
+      //     const hashedPassword = await bcrypt.hash(password, 10);
+      //     const newUser = new UserModel({
+      //       fullname,
+      //       email,
+      //       password: hashedPassword,
+      //       phone,
+      //       bio,
+      //       location,
+      //       profilepic: url || "",
+      //       job: "",
+      //       lang: "",
+      //       host: false,
+      //       Superhost: false,
+      //     });
 
-          const result = await newUser.save();
-          res
-            .status(201)
-            .json({ msg: "User Registered Successfully", user: result });
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ error: "Internal Server Error" });
-        }
-      }
+      //     const result = await newUser.save();
+      //     res
+      //       .status(201)
+      //       .json({ msg: "User Registered Successfully", user: result });
+      //   } catch (error) {
+      //     console.error(error);
+      //     res.status(500).json({ error: "Internal Server Error" });
+      //   }
+      // }
     } catch (error) {
       return res.status(500).json(error);
     }
