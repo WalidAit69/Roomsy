@@ -82,8 +82,16 @@ router.post(
         url = await uploadToS3(newPath, originalname, mimetype);
       }
 
-      const { fullname, email, password, phone, bio, location, imageUri , imageMimetype } =
-        req.body;
+      const {
+        fullname,
+        email,
+        password,
+        phone,
+        bio,
+        location,
+        imageUri,
+        imageMimetype,
+      } = req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
       if (user || userPhone) {
@@ -91,7 +99,11 @@ router.post(
       } else {
         try {
           if (imageUri && imageMimetype) {
-            await uploadMobileToS3(imageUri, imageMimetype);
+            try {
+              await uploadMobileToS3(imageUri, imageMimetype);
+            } catch (error) {
+              res.status(500).json({ error: "Error uploading image" });
+            }
           }
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new UserModel({
@@ -101,7 +113,7 @@ router.post(
             phone,
             bio,
             location,
-            profilepic: url || '',
+            profilepic: url || "",
             job: "",
             lang: "",
             host: false,
