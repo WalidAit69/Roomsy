@@ -141,10 +141,14 @@ router.post(
     connectDB();
     try {
       let url;
-      if (req?.file) {
+
+      try {
         const { uri, mimeType } = req?.file;
         url = await uploadMobileToS3(uri, mimeType);
+      } catch (error) {
+        res.status(500).json("Error Uploading photo")
       }
+
 
       const {
         fullname,
