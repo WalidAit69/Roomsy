@@ -85,58 +85,51 @@ router.post(
     try {
       let url;
       if (req?.file) {
-        const { originalname, path, mimetype } = req?.file;
+        const { originalname, path, mimetype , uri , mimeType } = req?.file;
         const newPath = path?.replace(/\\/g, "/");
-        url = await uploadToS3(newPath, originalname, mimetype);
+        // url = await uploadToS3(newPath, originalname, mimetype);
       }
 
-      const {
-        fullname,
-        email,
-        password,
-        phone,
-        bio,
-        location,
-        imageUri,
-        imageMimetype,
-      } = req.body;
-      const user = await UserModel.findOne({ email });
-      const userPhone = await UserModel.findOne({ phone });
-      if (user || userPhone) {
-        return res.status(400).json({ msg: "User already exists" });
-      } else {
-        try {
-          if (imageUri && imageMimetype) {
-            try {
-              await uploadMobileToS3(imageUri, imageMimetype);
-            } catch (error) {
-              res.status(500).json({ error: "Error uploading image" });
-            }
-          }
-          const hashedPassword = await bcrypt.hash(password, 10);
-          const newUser = new UserModel({
-            fullname,
-            email,
-            password: hashedPassword,
-            phone,
-            bio,
-            location,
-            profilepic: url || "",
-            job: "",
-            lang: "",
-            host: false,
-            Superhost: false,
-          });
+      res.status(200).json(req.file , "testest");
 
-          const result = await newUser.save();
-          res
-            .status(201)
-            .json({ msg: "User Registered Successfully", user: result });
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ error: "Internal Server Error" });
-        }
-      }
+      // const {
+      //   fullname,
+      //   email,
+      //   password,
+      //   phone,
+      //   bio,
+      //   location,
+      // } = req.body;
+      // const user = await UserModel.findOne({ email });
+      // const userPhone = await UserModel.findOne({ phone });
+      // if (user || userPhone) {
+      //   return res.status(400).json({ msg: "User already exists" });
+      // } else {
+      //   try {
+      //     const hashedPassword = await bcrypt.hash(password, 10);
+      //     const newUser = new UserModel({
+      //       fullname,
+      //       email,
+      //       password: hashedPassword,
+      //       phone,
+      //       bio,
+      //       location,
+      //       profilepic: url || "",
+      //       job: "",
+      //       lang: "",
+      //       host: false,
+      //       Superhost: false,
+      //     });
+
+      //     const result = await newUser.save();
+      //     res
+      //       .status(201)
+      //       .json({ msg: "User Registered Successfully", user: result });
+      //   } catch (error) {
+      //     console.error(error);
+      //     res.status(500).json({ error: "Internal Server Error" });
+      //   }
+      // }
     } catch (error) {
       return res.status(500).json(error);
     }
