@@ -82,16 +82,18 @@ router.post(
   async (req, res) => {
     connectDB();
 
-    try {
-      let url;
-      if (req?.file) {
-        const { uri , mimeType } = req?.file;
-        // const newPath = path?.replace(/\\/g, "/");
-        // url = await uploadToS3(newPath, originalname, mimetype);
-      }
+    // try {
+    //   let url;
+      // if (req?.file) {
+      //   const { uri , mimeType } = req?.file;
+      //   // const newPath = path?.replace(/\\/g, "/");
+      //   // url = await uploadToS3(newPath, originalname, mimetype);
+      // }
 
       res.status(200).json(req.file , "testest");
+      res.status(200).json( "testest");
       console.log(req.file , "testest")
+      console.log( "testest")
 
       // const {
       //   fullname,
@@ -131,9 +133,9 @@ router.post(
       //     res.status(500).json({ error: "Internal Server Error" });
       //   }
       // }
-    } catch (error) {
-      return res.status(500).json(error);
-    }
+    // } catch (error) {
+    //   return res.status(500).json(error);
+    // }
   }
 );
 
