@@ -150,9 +150,9 @@ router.put("/api/UpdateUser/:Userid", async (req, res) => {
 router.post("/api/login", async (req, res) => {
   connectDB();
   try {
-    const { email, password , number} = req.body;
+    const { email, password , phone} = req.body;
     const user = await UserModel.findOne({ email });
-    const userPhone = await UserModel.findOne({ number });
+    const userPhone = await UserModel.findOne({ phone });
 
     if (!user && !userPhone) {
       return res.status(400).json({ msg: "User not found" });
