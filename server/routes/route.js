@@ -41,30 +41,38 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
-async function uploadMobileToS3(image, mimetype) {
-  connectDB();
-  const client = new S3Client({
-    region: "eu-west-3",
-    credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    },
-  });
-  const ext = mimetype.split("/")[1];
-  const newFilename = Date.now() + "." + ext;
+async function uploadMobileToS3(imageUri, imageMimetype) {
+  try {
+    connectDB();
+    const client = new S3Client({
+      region: "eu-west-3",
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    });
 
-  const data = await client.send(
-    new PutObjectCommand({
-      Bucket: process.env.BUCKETNAME,
-      Body: fs.readFileSync(image),
-      Key: newFilename,
-      ContentType: mimetype,
-      ACL: "public-read",
-    })
-  );
+    const imageBuffer = fs.readFileSync(imageUri.replace("file://", ""));
 
-  console.log({ data });
-  return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
+    const ext = imageMimetype.split("/")[1];
+    const newFilename = Date.now() + "." + ext;
+
+    const data = await client.send(
+      new PutObjectCommand({
+        Bucket: process.env.BUCKETNAME,
+        Body: imageBuffer,
+        Key: newFilename,
+        ContentType: mimetype,
+        ACL: "public-read",
+      })
+    );
+
+    console.log({ data });
+    return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
+  } catch (error) {
+    console.error("Error uploading image to S3:", error);
+    throw error;
+  }
 }
 
 // Register
