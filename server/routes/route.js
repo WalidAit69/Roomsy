@@ -82,7 +82,7 @@ router.post(
         url = await uploadToS3(newPath, originalname, mimetype);
       }
 
-      const { fullname, email, password, phone, bio, location, image } =
+      const { fullname, email, password, phone, bio, location, imageUri , imageMimetype } =
         req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
@@ -90,8 +90,8 @@ router.post(
         return res.status(400).json({ msg: "User already exists" });
       } else {
         try {
-          if (image) {
-            await uploadMobileToS3(image.uri, image.mimeType);
+          if (imageUri && imageMimetype) {
+            await uploadMobileToS3(imageUri, imageMimetype);
           }
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new UserModel({
@@ -101,7 +101,7 @@ router.post(
             phone,
             bio,
             location,
-            profilepic: url || image,
+            profilepic: url || '',
             job: "",
             lang: "",
             host: false,
