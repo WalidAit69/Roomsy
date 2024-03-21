@@ -14,7 +14,7 @@ export const UserSchema = new mongoose.Schema(
       unique: false,
     },
     fullname: { type: String, required: true },
-    phone: { type: String, required: true },
+    phone: { type: String, required: true , unique: [true, "Number Exist"],},
     bio: { type: String, required: false },
     location: { type: String, required: true },
     profilepic: { type: String , required: false},

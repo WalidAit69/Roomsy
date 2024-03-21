@@ -56,7 +56,8 @@ router.post(
 
       const { fullname, email, password, phone, bio, location } = req.body;
       const user = await UserModel.findOne({ email });
-      if (user) {
+      const userPhone = await UserModel.findOne({ phone });
+      if (user || userPhone) {
         return res.status(400).json({ msg: "User already exists" });
       } else {
         try {
@@ -154,7 +155,7 @@ router.post("/api/login", async (req, res) => {
     const user = await UserModel.findOne({ email });
     const userPhone = await UserModel.findOne({ phone });
 
-    if (!user && !userPhone) {
+    if (!user || !userPhone) {
       return res.status(400).json({ msg: "User not found" });
     } else {
       if (!(await bcrypt.compare(password, user.password))) {
