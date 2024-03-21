@@ -157,7 +157,7 @@ router.post("/api/login", async (req, res) => {
 
     if (!user && !userPhone) {
       return res.status(400).json({ msg: "User not found" });
-    } else {
+    } else if(user){
       if (!(await bcrypt.compare(password, user.password))) {
         return res.status(400).json({ msg: "Password incorrect" });
       }
@@ -182,6 +182,33 @@ router.post("/api/login", async (req, res) => {
             .status(200)
             .cookie("token", token)
             .json({ id: user._id, accesstoken: token });
+        }
+      );
+    }else if(userPhone){
+      if (!(await bcrypt.compare(password, userPhone.password))) {
+        return res.status(400).json({ msg: "Password incorrect" });
+      }
+      jwt.sign(
+        {
+          Userid: userPhone._id,
+          fullname: userPhone.fullname,
+          email: userPhone.email,
+          phone: userPhone.phone,
+          bio: userPhone.bio,
+          location: userPhone.location,
+          password: userPhone.password,
+          profilepic: userPhone.profilepic,
+          host: userPhone.host,
+          Superhost: userPhone.Superhost,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: 24 * 60 * 60 },
+        (err, token) => {
+          if (err) throw err;
+          res
+            .status(200)
+            .cookie("token", token)
+            .json({ id: userPhone._id, accesstoken: token });
         }
       );
     }
