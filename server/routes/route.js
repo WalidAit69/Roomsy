@@ -145,11 +145,11 @@ router.post(
       try {
         const { uri, mimeType } = req?.file;
         url = await uploadMobileToS3(uri, mimeType);
-      } catch (error) {
-        res.status(500).json("Error Uploading photo")
         console.log(uri)
         console.log(mimeType)
         console.log(req.file)
+      } catch (error) {
+        res.status(500).json("Error Uploading photo")
       }
 
 
