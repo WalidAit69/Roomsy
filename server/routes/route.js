@@ -41,7 +41,7 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
-async function uploadMobileToS3(imageUri, imageMimetype) {
+async function uploadMobileToS3(uri, mimeType) {
   try {
     connectDB();
     const client = new S3Client({
@@ -52,9 +52,9 @@ async function uploadMobileToS3(imageUri, imageMimetype) {
       },
     });
 
-    const imageBuffer = fs.readFileSync(imageUri.replace("file://", ""));
+    const imageBuffer = fs.readFileSync(uri.replace("file://", ""));
 
-    const ext = imageMimetype.split("/")[1];
+    const ext = mimeType.split("/")[1];
     const newFilename = Date.now() + "." + ext;
 
     const data = await client.send(
@@ -62,7 +62,7 @@ async function uploadMobileToS3(imageUri, imageMimetype) {
         Bucket: process.env.BUCKETNAME,
         Body: imageBuffer,
         Key: newFilename,
-        ContentType: mimetype,
+        ContentType: mimeType,
         ACL: "public-read",
       })
     );
@@ -75,7 +75,7 @@ async function uploadMobileToS3(imageUri, imageMimetype) {
   }
 }
 
-// Register
+// Register Web
 router.post(
   "/api/register",
   uploadMiddleware.single("file"),
@@ -87,6 +87,63 @@ router.post(
         const { originalname, path, mimetype } = req?.file;
         const newPath = path?.replace(/\\/g, "/");
         url = await uploadToS3(newPath, originalname, mimetype);
+      }
+
+      const {
+        fullname,
+        email,
+        password,
+        phone,
+        bio,
+        location,
+      } = req.body;
+      const user = await UserModel.findOne({ email });
+      const userPhone = await UserModel.findOne({ phone });
+      if (user || userPhone) {
+        return res.status(400).json({ msg: "User already exists" });
+      } else {
+        try {
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const newUser = new UserModel({
+            fullname,
+            email,
+            password: hashedPassword,
+            phone,
+            bio,
+            location,
+            profilepic: url || "",
+            job: "",
+            lang: "",
+            host: false,
+            Superhost: false,
+          });
+
+          const result = await newUser.save();
+          res
+            .status(201)
+            .json({ msg: "User Registered Successfully", user: result });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: "Internal Server Error" });
+        }
+      }
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
+);
+
+// Register Mobile
+router.post(
+  "/api/appregister",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    connectDB();
+    try {
+      let url;
+      if (req?.file) {
+        const { uri, mimeType } = req?.file;
+        url = await uploadMobileToS3(uri, mimeType);
       }
 
       const {
