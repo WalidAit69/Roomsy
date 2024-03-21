@@ -54,7 +54,7 @@ router.post(
       const newPath = path.replace(/\\/g, "/");
       const url = await uploadToS3(newPath, originalname, mimetype);
 
-      const { fullname, email, password, phone, bio, location } = req.body;
+      const { fullname, email, password, phone, bio, location , image} = req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
       if (user || userPhone) {
@@ -69,7 +69,7 @@ router.post(
             phone,
             bio,
             location,
-            profilepic: url,
+            profilepic: url || image,
             job: "",
             lang: "",
             host: false,
