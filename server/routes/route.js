@@ -41,6 +41,32 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
+async function uploadMobileToS3(image, mimetype) {
+  connectDB();
+  const client = new S3Client({
+    region: "eu-west-3",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    },
+  });
+  const ext = mimetype.split("/")[1];
+  const newFilename = Date.now() + "." + ext;
+
+  const data = await client.send(
+    new PutObjectCommand({
+      Bucket: process.env.BUCKETNAME,
+      Body: fs.readFileSync(image),
+      Key: newFilename,
+      ContentType: mimetype,
+      ACL: "public-read",
+    })
+  );
+
+  console.log({ data });
+  return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
+}
+
 // Register
 router.post(
   "/api/register",
@@ -64,6 +90,9 @@ router.post(
         return res.status(400).json({ msg: "User already exists" });
       } else {
         try {
+          if (image) {
+            await uploadMobileToS3(image.uri, image.mimeType);
+          }
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new UserModel({
             fullname,
