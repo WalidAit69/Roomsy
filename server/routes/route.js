@@ -85,12 +85,13 @@ router.post(
     try {
       let url;
       if (req?.file) {
-        const { originalname, path, mimetype , uri , mimeType } = req?.file;
-        const newPath = path?.replace(/\\/g, "/");
+        const { uri , mimeType } = req?.file;
+        // const newPath = path?.replace(/\\/g, "/");
         // url = await uploadToS3(newPath, originalname, mimetype);
       }
 
       res.status(200).json(req.file , "testest");
+      console.log(req.file , "testest")
 
       // const {
       //   fullname,
