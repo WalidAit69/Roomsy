@@ -12,6 +12,14 @@ import AWS from 'aws-sdk';
 const router = Router();
 dotenv.config();
 
+AWS.config.update({
+  accessKeyId: "AKIAVWPSVOF6BP46WQ6R",
+  secretAccessKey: "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",
+  region: "eu-west-3",
+});
+
+const s3 = new AWS.S3();
+
 const uploadMiddleware = multer({ dest: "/tmp" });
 
 // upload pictures to AWS
@@ -43,21 +51,6 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
 
 async function MobileuploadToS3(fileData, filename, mimetype) {
   connectDB();
-
-  AWS.config.update({
-    accessKeyId: "AKIAVWPSVOF6BP46WQ6R",
-    secretAccessKey: "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",
-    region: "eu-west-3",
-  });
-
-  // const client = new S3Client({
-  //   region: "eu-west-3",
-  //   credentials: {
-  //     accessKeyId: process.env.S3_ACCESS_KEY,
-  //     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  //   },
-  // });
-  const s3 = new AWS.S3();
 
   try {
     const params = {
@@ -140,7 +133,7 @@ router.post(
 
 // Register Mobile
 router.post(
-  "/api/appregister",  async (req, res) => {
+  "/api/appregister", async (req, res) => {
     connectDB();
     try {
       const {
@@ -159,7 +152,7 @@ router.post(
       if (user || userPhone) {
         return res.status(400).json({ msg: "User already exists" });
       } else {
-      let url;
+        let url;
 
         try {
           url = await MobileuploadToS3(fileData, filename, mimetype);
