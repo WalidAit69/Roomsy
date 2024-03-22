@@ -51,15 +51,15 @@ async function MobileuploadToS3(fileData, filename, mimetype) {
     },
   });
 
-  const data = await client.send(
-    new PutObjectCommand({
+  const data = await client.upload(
+    {
       Bucket: process.env.BUCKETNAME,
       Body: fileData,
       Key: filename,
       ContentType: mimetype,
       ACL: "public-read",
-    })
-  );
+    }
+  ).promise();
 
   console.log({ data });
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${filename}`;
