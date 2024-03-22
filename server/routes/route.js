@@ -41,6 +41,31 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
+async function MobileuploadToS3(fileData, filename, mimetype) {
+  connectDB();
+  const client = new S3Client({
+    region: "eu-west-3",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    },
+  });
+
+  const data = await client.send(
+    new PutObjectCommand({
+      Bucket: process.env.BUCKETNAME,
+      Body: fs.readFileSync(fileData),
+      Key: filename,
+      ContentType: mimetype,
+      ACL: "public-read",
+    })
+  );
+
+  console.log({ data });
+  return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${filename}`;
+}
+
+
 // Register Web
 router.post(
   "/api/register",
@@ -49,11 +74,6 @@ router.post(
     connectDB();
     try {
       let url;
-      if (req?.file) {
-        const { originalname, path, mimetype } = req?.file;
-        const newPath = path?.replace(/\\/g, "/");
-        url = await uploadToS3(newPath, originalname, mimetype);
-      }
 
       const {
         fullname,
@@ -69,6 +89,12 @@ router.post(
         return res.status(400).json({ msg: "User already exists" });
       } else {
         try {
+          if (req?.file) {
+            const { originalname, path, mimetype } = req?.file;
+            const newPath = path?.replace(/\\/g, "/");
+            url = await uploadToS3(newPath, originalname, mimetype);
+          }
+
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new UserModel({
             fullname,
@@ -111,13 +137,25 @@ router.post(
         phone,
         bio,
         location,
-        profilepic
+        fileData,
+        filename,
+        mimetype
       } = req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
       if (user || userPhone) {
         return res.status(400).json({ msg: "User already exists" });
       } else {
+      let url;
+
+        try {
+          url = await MobileuploadToS3(fileData, filename, mimetype);
+        } catch (error) {
+          res
+            .status(400)
+            .json({ msg: "Error uploading image" });
+        }
+        
         try {
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new UserModel({
@@ -127,7 +165,7 @@ router.post(
             phone,
             bio,
             location,
-            profilepic: profilepic || "",
+            profilepic: url || "",
             job: "",
             lang: "",
             host: false,
