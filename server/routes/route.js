@@ -41,40 +41,6 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
 }
 
-async function uploadMobileToS3(uri, mimeType) {
-  try {
-    connectDB();
-    const client = new S3Client({
-      region: "eu-west-3",
-      credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY,
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-      },
-    });
-
-    const imageBuffer = fs.readFileSync(uri.replace("file://", ""));
-
-    const ext = mimeType.split("/")[1];
-    const newFilename = Date.now() + "." + ext;
-
-    const data = await client.send(
-      new PutObjectCommand({
-        Bucket: process.env.BUCKETNAME,
-        Body: imageBuffer,
-        Key: newFilename,
-        ContentType: mimeType,
-        ACL: "public-read",
-      })
-    );
-
-    console.log({ data });
-    return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
-  } catch (error) {
-    console.error("Error uploading image to S3:", error);
-    throw error;
-  }
-}
-
 // Register Web
 router.post(
   "/api/register",
@@ -145,6 +111,7 @@ router.post(
         phone,
         bio,
         location,
+        profilepic
       } = req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
@@ -160,7 +127,7 @@ router.post(
             phone,
             bio,
             location,
-            profilepic: "",
+            profilepic: profilepic || "",
             job: "",
             lang: "",
             host: false,
