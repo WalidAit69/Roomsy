@@ -54,7 +54,7 @@ async function MobileuploadToS3(fileData, filename, mimetype) {
   const data = await client.send(
     new PutObjectCommand({
       Bucket: process.env.BUCKETNAME,
-      Body: fs.readFileSync(fileData),
+      Body: fileData,
       Key: filename,
       ContentType: mimetype,
       ACL: "public-read",
@@ -155,7 +155,7 @@ router.post(
             .status(400)
             .json({ msg: "Error uploading image" });
         }
-        
+
         try {
           const hashedPassword = await bcrypt.hash(password, 10);
           const newUser = new UserModel({
