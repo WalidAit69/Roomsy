@@ -12,14 +12,6 @@ import AWS from "aws-sdk";
 const router = Router();
 dotenv.config();
 
-AWS.config.update({
-  accessKeyId: "AKIAVWPSVOF6BP46WQ6R",
-  secretAccessKey: "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",
-  region: "eu-west-3",
-});
-
-const s3 = new AWS.S3();
-
 const uploadMiddleware = multer({ dest: "/tmp" });
 
 // upload pictures to AWS
@@ -47,29 +39,6 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
 
   console.log({ data });
   return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${newFilename}`;
-}
-
-async function MobileuploadToS3(fileData, filename, mimetype) {
-  connectDB();
-
-  try {
-    const params = {
-      Bucket: "roomsy-booking",
-      Key: filename,
-      Body: fileData,
-      ContentType: mimetype,
-      ACL: "public-read",
-    };
-
-    const data = await s3.upload(params).promise();
-
-    console.log("File uploaded successfully:", data.Location);
-    return data.Location;
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    res.status(400).json({ "Error uploading image": error });
-    throw error;
-  }
 }
 
 // Register Web
@@ -135,18 +104,13 @@ router.post("/api/appregister", async (req, res) => {
       phone,
       bio,
       location,
-      fileData,
-      filename,
-      mimetype,
+      profilepic,
     } = req.body;
     const user = await UserModel.findOne({ email });
     const userPhone = await UserModel.findOne({ phone });
     if (user || userPhone) {
       return res.status(400).json({ msg: "User already exists" });
     } else {
-
-      const url = await MobileuploadToS3(fileData, filename, mimetype);
-
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new UserModel({
@@ -156,7 +120,7 @@ router.post("/api/appregister", async (req, res) => {
           phone,
           bio,
           location,
-          profilepic: url || "",
+          profilepic,
           job: "",
           lang: "",
           host: false,
