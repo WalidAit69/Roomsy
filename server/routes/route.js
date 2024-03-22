@@ -7,7 +7,7 @@ import fs from "fs";
 import connectDB from "../database/conn.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 
 const router = Router();
 dotenv.config();
@@ -67,10 +67,10 @@ async function MobileuploadToS3(fileData, filename, mimetype) {
     return data.Location;
   } catch (error) {
     console.error("Error uploading file:", error);
+    res.status(400).json({ "Error uploading image" : error });
     throw error;
   }
 }
-
 
 // Register Web
 router.post(
@@ -81,14 +81,7 @@ router.post(
     try {
       let url;
 
-      const {
-        fullname,
-        email,
-        password,
-        phone,
-        bio,
-        location,
-      } = req.body;
+      const { fullname, email, password, phone, bio, location } = req.body;
       const user = await UserModel.findOne({ email });
       const userPhone = await UserModel.findOne({ phone });
       if (user || userPhone) {
@@ -132,66 +125,60 @@ router.post(
 );
 
 // Register Mobile
-router.post(
-  "/api/appregister", async (req, res) => {
-    connectDB();
-    try {
-      const {
-        fullname,
-        email,
-        password,
-        phone,
-        bio,
-        location,
-        fileData,
-        filename,
-        mimetype
-      } = req.body;
-      const user = await UserModel.findOne({ email });
-      const userPhone = await UserModel.findOne({ phone });
-      if (user || userPhone) {
-        return res.status(400).json({ msg: "User already exists" });
-      } else {
-        let url;
+router.post("/api/appregister", async (req, res) => {
+  connectDB();
+  try {
+    const {
+      fullname,
+      email,
+      password,
+      phone,
+      bio,
+      location,
+      fileData,
+      filename,
+      mimetype,
+    } = req.body;
+    const user = await UserModel.findOne({ email });
+    const userPhone = await UserModel.findOne({ phone });
+    if (user || userPhone) {
+      return res.status(400).json({ msg: "User already exists" });
+    } else {
+      let url;
 
-        try {
-          url = await MobileuploadToS3(fileData, filename, mimetype);
-        } catch (error) {
-          res
-            .status(400)
-            .json({ msg: "Error uploading image" });
-        }
+      try {
+        url = await MobileuploadToS3(fileData, filename, mimetype);
+      } catch (error) {}
 
-        try {
-          const hashedPassword = await bcrypt.hash(password, 10);
-          const newUser = new UserModel({
-            fullname,
-            email,
-            password: hashedPassword,
-            phone,
-            bio,
-            location,
-            profilepic: url || "",
-            job: "",
-            lang: "",
-            host: false,
-            Superhost: false,
-          });
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new UserModel({
+          fullname,
+          email,
+          password: hashedPassword,
+          phone,
+          bio,
+          location,
+          profilepic: url || "",
+          job: "",
+          lang: "",
+          host: false,
+          Superhost: false,
+        });
 
-          const result = await newUser.save();
-          res
-            .status(201)
-            .json({ msg: "User Registered Successfully", user: result });
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ error: "Internal Server Error" });
-        }
+        const result = await newUser.save();
+        res
+          .status(201)
+          .json({ msg: "User Registered Successfully", user: result });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
       }
-    } catch (error) {
-      return res.status(500).json(error);
     }
+  } catch (error) {
+    return res.status(500).json(error);
   }
-);
+});
 
 //update user
 router.put(
