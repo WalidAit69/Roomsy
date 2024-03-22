@@ -67,7 +67,7 @@ async function MobileuploadToS3(fileData, filename, mimetype) {
     return data.Location;
   } catch (error) {
     console.error("Error uploading file:", error);
-    res.status(400).json({ "Error uploading image" : error });
+    res.status(400).json({ "Error uploading image": error });
     throw error;
   }
 }
@@ -144,11 +144,8 @@ router.post("/api/appregister", async (req, res) => {
     if (user || userPhone) {
       return res.status(400).json({ msg: "User already exists" });
     } else {
-      let url;
 
-      try {
-        url = await MobileuploadToS3(fileData, filename, mimetype);
-      } catch (error) {}
+      const url = await MobileuploadToS3(fileData, filename, mimetype);
 
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
