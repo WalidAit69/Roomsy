@@ -8,7 +8,6 @@ import connectDB from "../database/conn.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import AWS from 'aws-sdk';
-import RNFetchBlob from 'rn-fetch-blob';
 
 const router = Router();
 dotenv.config();
