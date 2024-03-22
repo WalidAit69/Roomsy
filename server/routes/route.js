@@ -6,8 +6,9 @@ import multer from "multer";
 import fs from "fs";
 import connectDB from "../database/conn.js";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import mime from "mime-types";
 import dotenv from "dotenv";
+import AWS from 'aws-sdk';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const router = Router();
 dotenv.config();
@@ -43,26 +44,39 @@ async function uploadToS3(newPath, originalFilename, mimetype) {
 
 async function MobileuploadToS3(fileData, filename, mimetype) {
   connectDB();
-  const client = new S3Client({
+
+  AWS.config.update({
+    accessKeyId: "AKIAVWPSVOF6BP46WQ6R",
+    secretAccessKey: "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",
     region: "eu-west-3",
-    credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    },
   });
 
-  const data = await client.upload(
-    {
-      Bucket: process.env.BUCKETNAME,
-      Body: fileData,
+  // const client = new S3Client({
+  //   region: "eu-west-3",
+  //   credentials: {
+  //     accessKeyId: process.env.S3_ACCESS_KEY,
+  //     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  //   },
+  // });
+  const s3 = new AWS.S3();
+
+  try {
+    const params = {
+      Bucket: "roomsy-booking",
       Key: filename,
+      Body: fileData,
       ContentType: mimetype,
       ACL: "public-read",
-    }
-  ).promise();
+    };
 
-  console.log({ data });
-  return `https://${process.env.BUCKETNAME}.s3.amazonaws.com/${filename}`;
+    const data = await s3.upload(params).promise();
+
+    console.log("File uploaded successfully:", data.Location);
+    return data.Location;
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw error;
+  }
 }
 
 
