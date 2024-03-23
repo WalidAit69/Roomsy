@@ -199,7 +199,7 @@ placerouter.post("/api/place/:Userid", async (req, res) => {
     owner,
   } = req.body;
 
-  const {Userid} = req.params;
+  const { Userid } = req.params;
 
   try {
     if (Userid) {
@@ -436,6 +436,29 @@ placerouter.get("/api/placeByowner/:id", async (req, res) => {
     res.status(200).json(place);
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//get places by Likes
+placerouter.get("/api/placeBylikes/:id", async (req, res) => {
+  connectDB();
+  const { id } = req.params;
+  try {
+    const user = await Usermodel.findById(id);
+    if (user && user.likedPosts.length > 0) {
+      user.likedPosts.map(async (postid) => {
+        const place = await Placemodel.findById(postid).populate(
+          "owner",
+          "fullname profilepic phone"
+        );
+
+        return res.status(200).json(place);
+      });
+    } else {
+      return res.status(400).json("User not found or has no likes");
+    }
+  } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
