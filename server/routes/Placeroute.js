@@ -446,20 +446,24 @@ placerouter.get("/api/placeBylikes/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const user = await Usermodel.findById(id);
-    if (user && user.likedPosts.length > 0) {
-      user.likedPosts.map(async (postid) => {
-        const place = await Placemodel.findById(postid).populate(
-          "owner",
-          "fullname profilepic phone"
-        );
+    if (user.likedPosts.length > 0) {
+      const likedPlaces = await Promise.all(
+        user.likedPosts.map(async (postid) => {
+          const place = await Placemodel.findById(postid).populate(
+            "owner",
+            "fullname profilepic phone"
+          );
+          return place;
+        })
+      );
 
-        return res.status(200).json(place);
-      });
+      return res.status(200).json(likedPlaces);
     } else {
       return res.status(400).json("User not found or has no likes");
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
