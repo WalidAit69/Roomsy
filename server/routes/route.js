@@ -221,14 +221,11 @@ router.post("/api/login", async (req, res) => {
         { expiresIn: 24 * 60 * 60 },
         (err, token) => {
           if (err) throw err;
-          res
-            .status(200)
-            .cookie("token", token)
-            .json({
-              id: user._id,
-              accesstoken: token,
-              userPhoto: user.profilepic,
-            });
+          res.status(200).cookie("token", token).json({
+            id: user._id,
+            accesstoken: token,
+            userPhoto: user.profilepic,
+          });
         }
       );
     } else if (userPhone) {
@@ -255,7 +252,11 @@ router.post("/api/login", async (req, res) => {
           res
             .status(200)
             .cookie("token", token)
-            .json({ id: userPhone._id, accesstoken: token });
+            .json({
+              id: userPhone._id,
+              accesstoken: token,
+              userPhoto: user.profilepic,
+            });
         }
       );
     }
