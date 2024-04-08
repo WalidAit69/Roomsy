@@ -97,15 +97,8 @@ router.post(
 router.post("/api/appregister", async (req, res) => {
   connectDB();
   try {
-    const {
-      fullname,
-      email,
-      password,
-      phone,
-      bio,
-      location,
-      profilepic,
-    } = req.body;
+    const { fullname, email, password, phone, bio, location, profilepic } =
+      req.body;
     const user = await UserModel.findOne({ email });
     const userPhone = await UserModel.findOne({ phone });
     if (user || userPhone) {
@@ -231,7 +224,11 @@ router.post("/api/login", async (req, res) => {
           res
             .status(200)
             .cookie("token", token)
-            .json({ id: user._id, accesstoken: token });
+            .json({
+              id: user._id,
+              accesstoken: token,
+              userPhoto: user.profilepic,
+            });
         }
       );
     } else if (userPhone) {
