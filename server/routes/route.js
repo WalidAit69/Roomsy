@@ -255,7 +255,7 @@ router.post("/api/login", async (req, res) => {
             .json({
               id: userPhone._id,
               accesstoken: token,
-              userPhoto: user.profilepic,
+              userPhoto: userPhone.profilepic,
             });
         }
       );
