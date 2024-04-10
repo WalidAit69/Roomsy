@@ -37,7 +37,7 @@ export const PlaceSchema = new mongoose.Schema(
         userId: { type: Schema.Types.ObjectId, ref: "Users" },
         userName: String,
         userPhoto: String,
-        createdAt: { type: Date, default: Date.now },
+        createdAt: { type: Date },
       },
     ],
   },
