@@ -554,7 +554,7 @@ placerouter.post("/api/reviews/:placeid/:Userid", async (req, res) => {
         if (!comment || !rating) {
           return res
             .status(400)
-            .json({ error: "Please provide comment, rating." });
+            .json({ error: "Please provide comment and rating." });
         }
 
         const newPlaceReview = {
@@ -563,6 +563,7 @@ placerouter.post("/api/reviews/:placeid/:Userid", async (req, res) => {
           userId: Userid,
           userName: user.fullname,
           userPhoto: user.profilepic,
+          createdAt: new Date(),
         };
 
         place.reviews.push(newPlaceReview);
