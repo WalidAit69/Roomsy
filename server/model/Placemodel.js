@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-
 export const PlaceSchema = new mongoose.Schema(
   {
     title: {
@@ -33,11 +32,12 @@ export const PlaceSchema = new mongoose.Schema(
     owner: { type: Schema.Types.ObjectId, ref: "Users" },
     reviews: [
       {
-        comment: { type: String},
-        rating: { type: Number},
+        comment: { type: String },
+        rating: { type: Number },
         userId: { type: Schema.Types.ObjectId, ref: "Users" },
         userName: String,
         userPhoto: String,
+        createdAt: { type: Date, default: Date.now },
       },
     ],
   },
