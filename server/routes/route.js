@@ -171,7 +171,7 @@ router.put("/api/UpdateUser/:Userid", async (req, res) => {
   const { Userid } = req.params;
   if (Userid) {
     try {
-      const { job, bio, lang } = req.body;
+      const { job, bio, lang , fullname , profilepic } = req.body;
       const userDoc = await UserModel.findById(Userid);
       if (!userDoc) {
         return res.status(404).json({ msg: "User not found" });
@@ -181,6 +181,8 @@ router.put("/api/UpdateUser/:Userid", async (req, res) => {
         job: job ? job : userDoc.job,
         bio: bio ? bio : userDoc.bio,
         lang: lang ? lang : userDoc.lang,
+        fullname: fullname ? fullname : userDoc.fullname,
+        profilepic: profilepic ? profilepic : userDoc.profilepic,
       });
 
       res.status(200).json(userDoc);
